@@ -37,3 +37,52 @@ Aplikasi akan berjalan pada port yang telah ditentukan di file `.env`.
 
 Berikut adalah struktur dasar dari proyek ini:
 
+.
+├── backend
+│ ├── config
+│ │ └── db.js
+│ ├── controllers
+│ │ └── userController.js
+│ ├── models
+│ │ ├── User.js
+│ │ ├── Supplier.js
+│ │ ├── DST.js
+│ │ ├── Announcement.js
+│ │ └── Specification.js
+│ ├── routes
+│ │ ├── userRoutes.js
+│ │ └── supplierRoutes.js
+│ ├── middleware
+│ │ └── authMiddleware.js
+│ ├── utils
+│ │ └── sendEmail.js
+│ └── server.js
+├── .env
+├── .gitignore
+├── package.json
+└── README.md
+
+
+## Fitur Aplikasi
+
+- **Umum**: Home, Login, Daftar
+- **Supplier**: Profil, Data Pendukung, Mengajukan menjadi Daftar Supplier Tetap (DST)
+- **Manajer**: Melihat DST
+- **Administrator**: Manajemen User, Manajemen DST, Manajemen Spesifikasi
+- **Fitur Khusus**: 
+  - Kirim email ke supplier
+  - Membuat pengumuman untuk ditampilkan ke home
+
+## Teknologi yang Digunakan
+
+- **Frontend**: (React.js / Vue.js)
+- **Backend**: Node.js dengan Express.js
+- **Database**: MongoDB
+
+## Kontribusi
+
+Jika Anda ingin berkontribusi pada proyek ini, silakan fork repository ini dan buat pull request dengan perubahan yang Anda usulkan.
+
+## Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
