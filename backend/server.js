@@ -2,7 +2,7 @@ import express from "express";
 import dotenv  from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import connectToMongoDB from "../backend/db/connectToMongo.js";
+import connectToMongoDB from "../backend/config/connectToMongo.js";
 
 import authRoutes from "../backend/routes/auth-routes.js"
 
