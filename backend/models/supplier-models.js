@@ -1,0 +1,32 @@
+import mongoose, { Schema } from "mongoose";
+
+const supplierSchema = new mongoose.Schema({
+    userid: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    profile: {
+        companyName: { 
+            type: String, 
+            required: true 
+        },
+        phone: { 
+            type: String, 
+            required: true 
+        },
+        address: { 
+            type: String, 
+            required: true 
+        },
+    },
+    isDST: { 
+        type: Boolean, 
+        default: false 
+    },
+}, { timestamps: true }
+)
+
+const Supplier = mongoose.model("Supplier", supplierSchema);
+
+export default Supplier

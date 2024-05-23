@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import connectToMongoDB from "../backend/config/connectToMongo.js";
 
 import authRoutes from "../backend/routes/auth-routes.js"
+import supplierRoutes from "../backend/routes/supplier-routes.js"
+import announcementRoutes from "../backend/routes/announcement-routes.js"
 
 const app = express();
 
@@ -18,6 +20,8 @@ app.use(cors())
 app.use(cookieParser())
 
 app.use("/api/auth", authRoutes)
+app.use("/api/supplier", supplierRoutes)
+app.use("/api/announcement", announcementRoutes)
 
 app.listen(PORT, () => {
     connectToMongoDB();

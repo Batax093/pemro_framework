@@ -4,7 +4,7 @@ import generateToken from "../utils/jsonWebToken.js"
 
 export const signup = async (req, res) => {
     try {
-        const { fullName, email, password, confirmPassword, gender, role } = req.body
+        const { fullName, email, password, confirmPassword, gender } = req.body
 
         if(password !== confirmPassword ){
             return res.status(401).json({ error: "Passwords don't match!"})
@@ -24,7 +24,6 @@ export const signup = async (req, res) => {
             email,
             password: hashedPassword,
             gender,
-            role,
         })
 
         if(newUser){
@@ -75,7 +74,7 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
     try {
         res.cookie("jwt", "", { maxAge : 0})
-        res.status(201).json({ message: "Logout Success "})
+        res.status(201).json({ message: "Logout Successful!"})
     } catch (error) {
         console.log("Error while signing up", error.message)
         return res.status(500).json({ error: "Internal Server Error!"})
