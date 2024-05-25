@@ -18,3 +18,14 @@ export const postAnnouncement = async (req, res) => {
         return res.status(500).json({ error: "Internal server error" })
     }
 }
+
+export const getAnnouncement = async (req, res) => {
+    try {
+        const announcement = await Announcement.find().select("title content -_id")
+
+        return res.status(201).json({announcement})
+    } catch (error) {
+        console.log("Error while getting announcement: ", error.message)
+        return res.status(500).json({ error: "Internal server error" })
+    }
+}

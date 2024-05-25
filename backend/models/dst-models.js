@@ -1,4 +1,4 @@
-import mongoose, { Schema, mongo } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const dstSchema = new mongoose.Schema({
     supplierid: {
@@ -8,10 +8,11 @@ const dstSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: [ 'pending', 'approved', 'rejected'], default: pending,
+        enum: [ 'pending', 'approved', 'rejected'], default: "pending",
     },
     approvedBy: {
-        Date
+        type: String,
+        required: null
     }
 }, { timestamps: true })
 

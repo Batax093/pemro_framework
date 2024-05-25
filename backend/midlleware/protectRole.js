@@ -1,10 +1,10 @@
 import User from '../models/user-models.js';
 
-const protectRole = async(req, res, next) => {
+const protectRole = async (req, res, next) => {
     try {
-        const role = await User.findById(req.user._id).select("role");
+        const user = await User.findById(req.user._id).select("role");
 
-        if (role !== "administrator" || role !== "manajer") {
+        if (!user || (user.role !== "administrator" && user.role !== "manajer")) {
             return res.status(401).json({ error: "Unauthorized!" });
         }
 
@@ -15,4 +15,4 @@ const protectRole = async(req, res, next) => {
     }
 }
 
-export default protectRole
+export default protectRole;

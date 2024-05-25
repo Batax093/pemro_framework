@@ -7,6 +7,10 @@ const supplierSchema = new mongoose.Schema({
         required: true
     },
     profile: {
+        supplierName: {
+            type: String,
+            required: true
+        },
         companyName: { 
             type: String, 
             required: true 
@@ -21,7 +25,8 @@ const supplierSchema = new mongoose.Schema({
         },
     },
     isDST: { 
-        type: Boolean, 
+        type: Boolean,
+        required: true, 
         default: false 
     },
 }, { timestamps: true }

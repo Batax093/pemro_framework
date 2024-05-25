@@ -7,6 +7,7 @@ import connectToMongoDB from "../backend/config/connectToMongo.js";
 import authRoutes from "../backend/routes/auth-routes.js"
 import supplierRoutes from "../backend/routes/supplier-routes.js"
 import announcementRoutes from "../backend/routes/announcement-routes.js"
+import dstRoutes from "../backend/routes/dst-routes.js"
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser())
 app.use("/api/auth", authRoutes)
 app.use("/api/supplier", supplierRoutes)
 app.use("/api/announcement", announcementRoutes)
+app.use("/api/dst", dstRoutes)
 
 app.listen(PORT, () => {
     connectToMongoDB();
