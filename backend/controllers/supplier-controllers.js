@@ -52,28 +52,38 @@ export const getSupplier = async (req, res) => {
 
 export const updateSupplier = async (req, res) => {
     try {
-        const userid = req.user._id
-        const { companyName, phone, address } = req?.body
+        const { receiverid } = req.params;
+        const { companyName, phone, address } = req.body;
 
-        const updateSupplier = await Supplier.findOneAndUpdate({ userid }, {
-            profile: {
-                companyName,
-                phone,
-                address
-            }
-        })
-
-        if(updateSupplier){
-            return res.status(201).json(updateSupplier)
-        } else {
-            return res.status(401).json({ error: "Supplier not found!"})
+        if (!receiverid) {
+            return res.status(401).json({ error: "Receiver ID is required!" });
         }
 
+        const existingSupplier = await Supplier.findById(receiverid);
+
+        if (!existingSupplier) {
+            return res.status(401).json({ error: "Supplier not found!" });
+        }
+
+        const updateFields = {};
+        if (companyName) updateFields['profile.companyName'] = companyName;
+        if (phone) updateFields['profile.phone'] = phone;
+        if (address) updateFields['profile.address'] = address;
+
+        const updatedSupplier = await Supplier.findOneAndUpdate(
+            { _id: receiverid },
+            { $set: updateFields },
+            { new: true }
+        );
+
+        return res.status(201).json({ updatedSupplier });
+
     } catch (error) {
-        console.log("Error while updating supplier: ", error.message)
-        return res.status(500).json({ error: error.message })
+        console.error("Error while updating supplier:", error.message);
+        return res.status(500).json({ error: error.message });
     }
 }
+
 
 export const applyforDST = async (req, res) => {
     try {

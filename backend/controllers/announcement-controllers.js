@@ -23,6 +23,10 @@ export const getAnnouncement = async (req, res) => {
     try {
         const announcement = await Announcement.find().select("title content -_id")
 
+        if (!announcement) {
+            return res.status(404).json({ error: "Announcement not found!"})
+        }
+
         return res.status(201).json({announcement})
     } catch (error) {
         console.log("Error while getting announcement: ", error.message)
