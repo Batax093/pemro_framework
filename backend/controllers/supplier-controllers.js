@@ -1,6 +1,7 @@
 import Supplier from "../models/supplier-models.js"
 import User from "../models/user-models.js";
 import DST from "../models/dst-models.js";
+import { sendEmail } from "../utils/nodemailer.js"
 
 export const registerSupplier = async (req, res) => {
     try {
@@ -22,6 +23,7 @@ export const registerSupplier = async (req, res) => {
 
         const newSupplier = new Supplier({
             userid: existingUser._id,
+            email: existingUser.email,
             profile: {
                 supplierName: existingUser.fullName,
                 companyName,
@@ -41,7 +43,7 @@ export const registerSupplier = async (req, res) => {
 
 export const getSupplier = async (req, res) => {
     try {
-        const filteredSupplier = await Supplier.find().select("profile isDST -_id")
+        const filteredSupplier = await Supplier.find().select("email profile isDST -_id")
         
         return res.status(201).json({filteredSupplier})
     } catch (error) {
@@ -61,6 +63,8 @@ export const updateSupplier = async (req, res) => {
 
         const existingSupplier = await Supplier.findById(receiverid);
 
+        const { supplierName } = await User.findOne({ _id: existingSupplier.userid }).select("fullName -_id");
+
         if (!existingSupplier) {
             return res.status(401).json({ error: "Supplier not found!" });
         }
@@ -75,6 +79,24 @@ export const updateSupplier = async (req, res) => {
             { $set: updateFields },
             { new: true }
         );
+
+        const emailSubject = 'Announcement: Supplier Profile Updated'
+        const emailText = 'Your supplier profile has been successfully updated.'
+
+        const emailHtml = `
+            <p>Dear ${supplierName || existingSupplier.profile.supplierName},</p>
+            <p>Your supplier profile has been successfully updated with the following details:</p>
+            <ul>
+                ${supplierName ? `<li>Supplier Name: ${supplierName}</li>` : ''}
+                ${companyName ? `<li>Company Name: ${companyName}</li>` : ''}
+                ${phone ? `<li>Phone: ${phone}</li>` : ''}
+                ${address ? `<li>Address: ${address}</li>` : ''}
+            </ul>
+            <p>Thank you,</p>
+            <p>Kopi Kreatif</p>
+        `;
+
+        await sendEmail(existingSupplier.email, emailSubject, emailText, emailHtml);
 
         return res.status(201).json({ updatedSupplier });
 
