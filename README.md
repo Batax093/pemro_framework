@@ -8,11 +8,18 @@ Repository ini dibuat untuk mengerjakan sebuah Final Project mata kuliah Pemrogr
 
     ```plaintext
     PORT=5000
+
+    // you can create your own mongodb url using mongodb atlas or mongodb compass
     MONGO_URI=your_mongodb_uri
+
+    // you can generate random text using rand()
     JWT_SECRET=your_jwt_secret
     NODE_ENV=development
 
+    // this is your email for using apps password
     EMAIL_USER=your_email_apps
+
+    // you can get the apps password by configure your account
     EMAIL_PASS=your_email_apps_pass
     ```
 
