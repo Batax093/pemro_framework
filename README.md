@@ -11,6 +11,9 @@ Repository ini dibuat untuk mengerjakan sebuah Final Project mata kuliah Pemrogr
     MONGO_URI=your_mongodb_uri
     JWT_SECRET=your_jwt_secret
     NODE_ENV=development
+
+    EMAIL_USER=your_email_apps
+    EMAIL_PASS=your_email_apps_pass
     ```
 
 2. Install dependencies dengan perintah berikut:
