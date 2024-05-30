@@ -18,6 +18,10 @@ export const registerSupplier = async (req, res) => {
             return res.status(401).json({ message: "User not found! or already supplier!"})
         }
 
+        if(existingUser.role === "manajer" || existingUser.role === "administrator"){
+            return res.status(401),json({ message: "You are not allowed to register supplier!"})
+        }
+
         existingUser.role = "supplier"
         await existingUser.save()
 
