@@ -19,6 +19,7 @@ function Header() {
             <a href="#email">EMAIL</a>
             <a href="#about-us">ABOUT US</a>
             <a href="#account">ACCOUNT</a>
+            <a href="#home"></a>
             <BiLogOut className="text-3xl cursor-pointer" onClick={logout} />
           </nav>
         </div>
