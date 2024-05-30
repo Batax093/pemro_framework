@@ -1,6 +1,5 @@
 import useLogout from "../hooks/useLogout";
 import { BiLogOut } from "react-icons/bi";
-
 function Header() {
   const { logout } = useLogout();
 
@@ -34,13 +33,14 @@ function Header() {
 }
 
 function CatalogueSection() {
+  const coffee = "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&"
   const coffeeTypes = [
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", title: "Arabika" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", title: "Robusta" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", title: "Liberica" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", title: "Excelsa" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", title: "Gayo" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", title: "Kolombia" },
+    { id: coffee, title: "Arabika" },
+    { id: coffee, title: "Robusta" },
+    { id: coffee, title: "Liberica" },
+    { id: coffee, title: "Excelsa" },
+    { id: coffee, title: "Gayo" },
+    { id: coffee, title: "Kolombia" },
   ];
 
   return (
@@ -51,9 +51,9 @@ function CatalogueSection() {
       <p className="self-center mt-3.5 text-2xl font-light tracking-wide text-center text-stone-400 max-md:max-w-full">
         Biji Kopi Pilihan Untuk Penikmat Kopi Sejati
       </p>
-      <div className="flex flex-wrap gap-5 mt-14 justify-center">
+      <div className="grid grid-cols-3 gap-5 mt-14 justify-center max-md:grid-cols-1">
         {coffeeTypes.map((coffee) => (
-          <section key={coffee.id} className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
+          <section key={coffee.id} className="flex flex-col max-md:ml-0 max-md:w-full">
             <div className="flex flex-col grow px-9 pt-2 pb-5 w-full text-2xl font-extrabold tracking-tight text-center whitespace-nowrap rounded-md shadow-sm bg-stone-500 text-stone-400 max-md:px-5 max-md:mt-10">
               <img loading="lazy" src={coffee.id} className="w-full aspect-[1.49]" alt={`${coffee.title} beans`} />
               <div className="self-center mt-1.5">{coffee.title}</div>
@@ -66,16 +66,17 @@ function CatalogueSection() {
 }
 
 function OutletsSection() {
+  const outlet = "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&"
   const outlets = [
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Rungkut" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Mulyerejo" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Wiyung" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Keputih" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Tunjungan" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Gubeng" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Kertajaya" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Merr" },
-    { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Gayungan" },
+    { id: outlet, name: "Kopiin Cab. Rungkut" },
+    { id: outlet, name: "Kopiin Cab. Mulyerejo" },
+    { id: outlet, name: "Kopiin Cab. Wiyung" },
+    { id: outlet, name: "Kopiin Cab. Keputih" },
+    { id: outlet, name: "Kopiin Cab. Tunjungan" },
+    { id: outlet, name: "Kopiin Cab. Gubeng" },
+    { id: outlet, name: "Kopiin Cab. Kertajaya" },
+    { id: outlet, name: "Kopiin Cab. Merr" },
+    { id: outlet, name: "Kopiin Cab. Gayungan" },
   ];
 
   return (
@@ -130,7 +131,7 @@ function JoinSection() {
             <input
               type="text"
               id="companyName"
-              className="justify-center items-start px-5 py-5 mt-8 bg-lime-50 rounded-md max-md:pr-5"
+              className="w-full px-5 py-4 bg-lime-50 rounded-md"
               placeholder="Company Name"
             />
             <label htmlFor="phone" className="sr-only">
@@ -139,7 +140,7 @@ function JoinSection() {
             <input
               type="tel"
               id="phone"
-              className="justify-center items-start px-5 py-6 mt-3.5 whitespace-nowrap bg-lime-50 rounded-md max-md:pr-5"
+              className="w-full px-5 py-4 bg-lime-50 rounded-md"
               placeholder="Phone"
             />
             <label htmlFor="address" className="sr-only">
@@ -147,12 +148,12 @@ function JoinSection() {
             </label>
             <textarea
               id="address"
-              className="items-start px-5 pt-6 pb-24 mt-3.5 whitespace-nowrap bg-lime-50 rounded-md max-md:pr-5"
+              className="w-full px-5 py-4 bg-lime-50 rounded-md"
               placeholder="Address"
             />
             <button
               type="submit"
-              className="justify-center self-center px-8 py-3 mt-7 font-black whitespace-nowrap rounded-md bg-stone-500 text-stone-400 max-md:px-5"
+              className="px-8 py-3 mt-7 font-black rounded-md bg-stone-500 text-stone-400"
             >
               Daftar
             </button>
@@ -162,6 +163,7 @@ function JoinSection() {
     </section>
   );
 }
+
 
 function Footer() {
   return (
