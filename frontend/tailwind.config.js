@@ -8,6 +8,10 @@ export default {
         'brown-200': '#D2B48C',
         'brown-700': '#654321',
         'cream-100': '#FFFDD0',
+        'cream-300': '#CEAB93',
+        'cream-500': '#966A5B',
+        'cream-100': '#E3CAA5',
+        'cream-50' : '#F8F4E1',
       }
     },
   },
