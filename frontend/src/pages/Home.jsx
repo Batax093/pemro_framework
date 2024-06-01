@@ -3,6 +3,7 @@ import { BiLogOut } from "react-icons/bi";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from "react-hot-toast";
+import useSupplier from "../hooks/useSupplier.js";
 
 function Header() {
   const { logout } = useLogout(); 
@@ -262,7 +263,17 @@ function OutletsSection() {
   );
 }
 
-function JoinSection() {
+const JoinSection = () => {
+  const { loading, registerSupplier } = useSupplier();
+  const [ companyName, setCompanyName ] = useState('');
+  const [ phone, setPhone ] = useState('');
+  const [ address, setAddress ] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await registerSupplier(companyName, phone, address);
+  }
+
   return (
     <section className="mt-32 w-full max-w-[1255px] max-md:mt-10 max-md:max-w-full">
       <div className="flex flex-row max-md:flex-col max-md:gap-0">
@@ -287,7 +298,7 @@ function JoinSection() {
             </div>
             </span>
           </p>
-          <form className="flex flex-col justify-items-center mt-3 space-y-2">
+          <form onSubmit={handleSubmit} className="flex flex-col justify-items-center mt-3 space-y-2">
             <label htmlFor="companyName" className="sr-only">
               Company Name
             </label>
@@ -296,6 +307,8 @@ function JoinSection() {
               id="companyName"
               className="px-20 py-5 mt-8 bg-cream-50 rounded-md max-md:pr-5"
               placeholder="Company Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
             />
             <label htmlFor="phone" className="sr-only">
               Phone
@@ -305,21 +318,28 @@ function JoinSection() {
               id="phone"
               className="px-20 py-6 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
               placeholder="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
             <label htmlFor="address" className="sr-only">
               Address
             </label>
-            <textarea
+            <input
               id="address"
               className="px-20 pt-6 pb-24 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
               placeholder="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
-            <button
-              type="submit"
-              className="justify-center self-center px-8 py-3 mt-7 font-black whitespace-nowrap rounded-md bg-cream-500 text-cream-300 max-md:px-5"
-            >
-              Daftar
-            </button>
+            <div>
+              <button
+                disabled={loading}
+                type="submit"
+                className="justify-center self-center px-8 py-3 mt-7 font-black whitespace-nowrap rounded-md bg-cream-500 text-cream-300 max-md:px-5"
+              >
+                {loading ? <span className="loading-spinner"></span> : 'Register'}
+              </button>
+            </div>
           </form>
         </aside>
       </div>
