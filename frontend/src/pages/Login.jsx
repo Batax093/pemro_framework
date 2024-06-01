@@ -77,7 +77,7 @@ const Login = () => {
             type="submit"
             className="justify-center items-center px-16 py-6 mt-10 font-black whitespace-nowrap rounded-md bg-cream-500 text-cream-300 max-md:px-5"
           >
-            {loading ? <span className='loading loading-spinner'></span> : 'Login'}
+            {loading ? <span className="loading-spinner"></span> : 'Login'}
           </button>
         </form>
         <div className="mt-8 tracking-wider text-cream-500">

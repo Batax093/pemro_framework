@@ -9,18 +9,22 @@ import AboutUs from './pages/AboutUs.jsx'
 import Announcement from './pages/Announcement.jsx'
 
 import { useAuthContext } from '../src/context/authContext.jsx'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   const { authUser } = useAuthContext()
 
   return (
-    <Routes>
-      <Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
-			<Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
-			<Route path='/signup' element={authUser ? <Navigate to='/' /> : <Signup />} />
-      <Route path='/about-us' element={<AboutUs />} />
-      <Route path='/announcement' element={<Announcement />} />
-    </Routes>
+    <>
+      <Toaster />
+      <Routes>
+        <Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
+        <Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
+        <Route path='/signup' element={authUser ? <Navigate to='/' /> : <Signup />} />
+        <Route path='/about-us' element={<AboutUs />} />
+        <Route path='/announcement' element={<Announcement />} />
+      </Routes>
+    </>
   )
 }
 

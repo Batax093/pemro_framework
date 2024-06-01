@@ -1,17 +1,28 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { BiLogOut } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import useLogout from "../hooks/useLogout";
+import toast from 'react-hot-toast';
 
 function Header() {
   const { logout } = useLogout(); 
 
   const handleLogout = () => {
-    const confirmed = window.confirm("Apakah Anda yakin ingin logout?");
-    if (confirmed) {
-      logout();
-    }
+    toast.promise(
+      new Promise((resolve, reject) => {
+        const confirmed = window.confirm("Apakah Anda yakin ingin logout?");
+        if (confirmed) {
+          logout().then(resolve).catch(reject);
+        } else {
+          reject();
+        }
+      }),
+      {
+        loading: 'Logging out...',
+        success: 'You have been logged out successfully!',
+        error: 'Logout failed. Please try again.',
+      }
+    );
   };
 
   return (
