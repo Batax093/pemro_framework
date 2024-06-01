@@ -1,5 +1,6 @@
 import useLogout from "../hooks/useLogout";
 import { BiLogOut } from "react-icons/bi";
+import { Link } from "react-router-dom";
 function Header() {
   const { logout } = useLogout();
 
@@ -14,15 +15,15 @@ function Header() {
             </div>
           </div>
           <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
-            <a href="#home">HOME</a>
-            <a href="#email">EMAIL</a>
+            <Link to="/">HOME</Link>
+            <Link to="/announcement">ANNOUNCEMENT</Link>
             <a href="#about-us">ABOUT US</a>
             <a href="#account">ACCOUNT</a>
             <a href="#home"></a>
             <BiLogOut className="text-3xl cursor-pointer" onClick={logout} />
           </nav>
         </div>
-        <div className="flex gap-5 justify-between items-center mt-14 max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
+        <div className="flex gap-5 justify-center items-center mt-14 max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/5a3d4c2095268ed61816a7327665df32f69ecc96798e1d823edce4962b0dcbb3?apiKey=b1d7a673afae4361a48ecfd33debe811&" className="shrink-0 self-stretch my-auto w-12 aspect-[0.52] fill-black" alt="" />
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/661df0d225d97af78d225c81736dcaa29f52228f19437afe96a371eb78e0a5f4?apiKey=b1d7a673afae4361a48ecfd33debe811&" className="self-stretch w-full shadow-lg aspect-[1.75] max-md:max-w-full" alt="" />
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/5e64f3dd2e6e8fe9235c44b3ced7dafc21b0d8af6a7ae26364a524f077bb0dad?apiKey=b1d7a673afae4361a48ecfd33debe811&" className="shrink-0 self-stretch my-auto w-12 aspect-[0.52] fill-black" alt="" />
