@@ -36,11 +36,12 @@ Repository ini dibuat untuk mengerjakan sebuah Final Project mata kuliah Pemrogr
     ```sh
     Untuk backend
     npm run server
+    
+    Untuk frontend
     npm run dev
     ```
     atau
     ```sh
-    Untuk frontend
     yarn run server
     yarn run dev
     ```
