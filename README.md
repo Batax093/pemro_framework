@@ -34,11 +34,15 @@ Repository ini dibuat untuk mengerjakan sebuah Final Project mata kuliah Pemrogr
 
 3. Jalankan aplikasi dengan perintah:
     ```sh
+    Untuk backend
     npm run server
+    npm run dev
     ```
     atau
     ```sh
+    Untuk frontend
     yarn run server
+    yarn run dev
     ```
 
 Aplikasi akan berjalan pada port yang telah ditentukan di file `.env`.
