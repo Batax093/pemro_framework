@@ -3,7 +3,7 @@ import { BiLogOut } from "react-icons/bi";
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from "react-hot-toast";
-import useSupplier from "../hooks/useSupplier.js";
+import usePostSupplier from "../hooks/usePostSupplier.js";
 
 function Header() {
   const { logout } = useLogout(); 
@@ -264,7 +264,7 @@ function OutletsSection() {
 }
 
 const JoinSection = () => {
-  const { loading, registerSupplier } = useSupplier();
+  const { loading, registerSupplier } = usePostSupplier();
   const [ companyName, setCompanyName ] = useState('');
   const [ phone, setPhone ] = useState('');
   const [ address, setAddress ] = useState('');

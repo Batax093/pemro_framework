@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const useSupplier = () => {
+const usePostSupplier = () => {
     const [loading, setLoading] = useState(false);
 
     const registerSupplier = async (companyName, phone, address) => {
@@ -32,7 +32,7 @@ const useSupplier = () => {
     return { loading, registerSupplier };
 };
 
-export default useSupplier;
+export default usePostSupplier;
 
 function handleInputErrors(companyName, phone, address) {
     if (!companyName || !phone || !address) {
