@@ -31,7 +31,6 @@ function Header() {
             <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
               <Link to="/" className="nav-link hover:text-cream-500">HOME</Link>
               <a href="#dst" className="nav-link hover:text-cream-500">SUPPLIER</a>
-              <Link to="/about-us" className="nav-link hover:text-cream-500">ABOUT US</Link>
               <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
               <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
             </nav>
@@ -164,13 +163,6 @@ function Header() {
   
     return (
       <>
-        <section className="mt-20 text-4xl font-bold tracking-widest text-center text-cream-500 max-md:mt-10">
-          Status Kopiin
-        </section>
-        <p className="mt-4 text-2xl font-light tracking-wide text-center text-cream-500 max-md:max-w-full">
-          Cek Secara Berkala Pengajuanmu Untuk Menjadi Supplier Tetap
-        </p>
-        
         <div className="flex justify-center mt-20 w-full max-md:mt-10">
         <div className="flex justify-between w-full max-w-[90%]">
           {suppliers.map((supplier, index) => (

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import useLogout from "../hooks/useLogout";
 import { BiLogOut } from "react-icons/bi";
 import { useState } from 'react';
@@ -79,7 +80,6 @@ function Header() {
           <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
             <a href="#home" className="nav-link hover:text-cream-500">HOME</a>
             <a href="#dst" className="nav-link hover:text-cream-500">SUPPLIER</a>
-            <Link to="/about-us" className="nav-link hover:text-cream-500">ABOUT US</Link>
             <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
             <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
           </nav>
@@ -267,11 +267,12 @@ const JoinSection = () => {
   const { loading, registerSupplier } = usePostSupplier();
   const [ companyName, setCompanyName ] = useState('');
   const [ phone, setPhone ] = useState('');
+  const [ comodity, setComodity ] = useState('');
   const [ address, setAddress ] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerSupplier(companyName, phone, address);
+    await registerSupplier(companyName, phone, comodity, address);
   }
 
   return (
@@ -321,6 +322,14 @@ const JoinSection = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
+            <input 
+              type="text" 
+              id="comodity"
+              className="px-20 py-6 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5]"
+              placeholder="Comodity"
+              value={comodity}
+              onChange={(e) => setComodity(e.target.value)}
+            />
             <label htmlFor="address" className="sr-only">
               Address
             </label>
@@ -347,6 +356,35 @@ const JoinSection = () => {
   );
 }
 
+function Info({ children }) {
+  return (
+      <main className="px-5 mt-14 w-full max-w-[1251px] mx-auto max-md:mt-10 max-md:max-w-full">
+          <h1 className="self-center mt-20 pb-6 text-4xl font-bold tracking-widest text-center text-black max-md:mt-10 max-md:max-w-full">
+              KOPI<span className='text-cream-500'>IN</span>
+          </h1>
+          <div>
+          <div className="flex flex-col items-center p-6 font-black bg-cream-500 text-lg lg:text-base text-center text-black max-md:pr-5" style={{ letterSpacing: '1px', lineHeight: '2' }}>
+              <p>
+                  <span className="text-black p-2 rounded-lg">KOPI</span><span className='text-cream-100'>IN adalah destinasi utama bagi para pencinta kopi yang menginginkan pengalaman kopi yang otentik dan berkualitas. Sebagai toko kopi yang berdedikasi, kami menawarkan beragam biji kopi pilihan yang kami ambil langsung dari supplier-supplier ternama dan terpercaya. Dengan kehadiran di sembilan cabang yang tersebar luas, kami tidak hanya menawarkan kopi, tetapi juga menghadirkan sebuah komunitas tempat para pecinta kopi dapat berkumpul, berbagi cerita, dan mengeksplorasi ragam cita rasa kopi. Dengan fokus kami yang kuat pada kualitas, kami berkomitmen untuk memberikan pengalaman kopi yang tak terlupakan kepada setiap pelanggan kami.</span>
+              </p>
+          </div>
+
+          </div>
+          <h1 className="self-center mt-10 text-lg font-bold tracking-widest text-center text-black max-md:mt-10 max-md:max-w-full">
+              KOPI<span className="text-cream-500 p-1 rounded">IN</span>: Temukan Aroma <span className="text-cream-500 p-1 rounded">Sejati</span> dalam Setiap <span className="text-cream-500 p-1 rounded">Tetes</span>
+          </h1>
+      </main>
+  );
+}
+
+Info.propTypes = {
+  children: PropTypes.node,
+};
+
+Info.defaultProps = {
+  children: null,
+};
+
 function Footer() {
   return (
     <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
@@ -368,6 +406,7 @@ function Home() {
       <CatalogueSection />
       <OutletsSection/>
       <JoinSection/>
+      <Info />
       <Footer />
     </>
   );
