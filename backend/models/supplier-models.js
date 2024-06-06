@@ -28,6 +28,7 @@ const supplierSchema = new mongoose.Schema({
             required: true 
         },
     },
+    // goods: [{ type: Schema.Types.ObjectId, ref: "Goods" }],
     isDST: { 
         type: Boolean,
         required: true, 

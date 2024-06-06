@@ -10,6 +10,7 @@ export const signup = async (req, res) => {
             return res.status(401).json({ error: "Passwords don't match!"})
         }
 
+        
         const user = await User.findOne({ email })
 
         if(user){
