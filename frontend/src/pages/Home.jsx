@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import useLogout from "../hooks/useLogout";
 import { BiLogOut } from "react-icons/bi";
 import { useState } from 'react';
@@ -28,38 +29,42 @@ function Header() {
 
   const images = [
     {
-      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/661df0d225d97af78d225c81736dcaa29f52228f19437afe96a371eb78e0a5f4?apiKey=b1d7a673afae4361a48ecfd33debe811&',
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/3297cc1a9b58dbb8ea3098787c21c15aafa750adafdd7e0caf2833e16d03b9d3?apiKey=6aa320d50fc04f13ae8b58abb91612c7&',
       alt: 'First slide',
     },
     {
-      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/5e64f3dd2e6e8fe9235c44b3ced7dafc21b0d8af6a7ae26364a524f077bb0dad?apiKey=b1d7a673afae4361a48ecfd33debe811&',
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/dce69fca3aa9dc93357cb7177f5e384e63c7a2148ecdb061822de3ea9ea6b9aa?apiKey=6aa320d50fc04f13ae8b58abb91612c7&',
       alt: 'Second slide',
     },
     {
-      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/f2f20e8c29fe07f6ea7a6154c54947e10964b0172988ed447fd90bf2d60c726e?apiKey=6aa320d50fc04f13ae8b58abb91612c7&',
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/591b80c0b4afc7e5cb3626d79b2d1f8fe65ae4e2845ad9050dc95e55bd388b8e?apiKey=6aa320d50fc04f13ae8b58abb91612c7&',
       alt: 'Third slide',
+    },
+    {
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/84200a04b1aa23b15c5c87029bf5745cfd9ae2e8cfa472b50e3dce238ba59407?apiKey=6aa320d50fc04f13ae8b58abb91612c7&',
+      alt: 'Fourth slide',
+    },
+    {
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/f2ea24a99d8842b5e54a638c9dd62eb0e87671880c0e29a905f27f01cdaaf33a?apiKey=6aa320d50fc04f13ae8b58abb91612c7&',
+      alt: 'Fifth slide',
+    },
+    {
+      src: 'https://cdn.builder.io/api/v1/image/assets/TEMP/6854747051a17a4c5a86e045bd3a76694a4be95ef8cf403e73b83f44d8f21328?apiKey=6aa320d50fc04f13ae8b58abb91612c7&',
+      alt: 'Sixth slide',
     }
   ];
-
-  const prevSlide = () => {
-    const activeItem = document.querySelector('.carousel-item.active');
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const activeIndex = Array.from(carouselItems).indexOf(activeItem);
-    const prevIndex = (activeIndex === 0 ? carouselItems.length - 1 : activeIndex - 1);
-
-    activeItem.classList.remove('active');
-    carouselItems[prevIndex].classList.add('active');
-  };
-
-  const nextSlide = () => {
-    const activeItem = document.querySelector('.carousel-item.active');
-    const carouselItems = document.querySelectorAll('.carousel-item');
-    const activeIndex = Array.from(carouselItems).indexOf(activeItem);
-    const nextIndex = (activeIndex + 1) % carouselItems.length;
-
-    activeItem.classList.remove('active');
-    carouselItems[nextIndex].classList.add('active');
-  };
+  
+    const [activeIndex, setActiveIndex] = useState(0);
+  
+    const prevSlide = () => {
+      const prevIndex = (activeIndex === 0 ? images.length - 1 : activeIndex - 1);
+      setActiveIndex(prevIndex);
+    };
+  
+    const nextSlide = () => {
+      const nextIndex = (activeIndex + 1) % images.length;
+      setActiveIndex(nextIndex);
+    };
 
   return (
     <header className="flex flex-col items-center pt-3.5 bg-white">
@@ -79,7 +84,6 @@ function Header() {
           <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
             <a href="#home" className="nav-link hover:text-cream-500">HOME</a>
             <a href="#dst" className="nav-link hover:text-cream-500">SUPPLIER</a>
-            <Link to="/about-us" className="nav-link hover:text-cream-500">ABOUT US</Link>
             <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
             <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
           </nav>
@@ -87,24 +91,24 @@ function Header() {
         <div id="carouselExampleControls" className="relative w-full max-w-lg mx-auto mt-5 carousel">
           <div className="carousel-inner flex overflow-hidden relative h-64">
             {images.map((image, index) => (
-              <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''} w-full flex-shrink-0`}>
+              <div key={index} className={`carousel-item ${index === activeIndex ? 'block' : 'hidden'} w-full flex-shrink-0`}>
                 <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
           <a
-            className="carousel-control-prev absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 cursor-pointer"
+            className="carousel-control-prev absolute top-1/2 left-0 transform -translate-y-1/2 -ml-10 bg-cream-300 bg-opacity-50 text-cream-500 font-extrabold p-2 cursor-pointer rounded-full"
             role="button"
             onClick={prevSlide}
           >
-            &lt;
+            <span className="text-xl">&lt;</span>
           </a>
           <a
-            className="carousel-control-next absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 cursor-pointer"
+            className="carousel-control-next absolute top-1/2 right-0 transform -translate-y-1/2 -mr-10 bg-cream-300 bg-opacity-50 text-cream-500 font-extrabold p-2 cursor-pointer rounded-full"
             role="button"
             onClick={nextSlide}
           >
-            &gt;
+            <span className="text-xl">&gt;</span>
           </a>
         </div>
       </div>
@@ -162,7 +166,7 @@ function CatalogueSection() {
 
   return (
     <main className="px-5 mt-14 w-full max-w-[1251px] mx-auto max-md:mt-10 max-md:max-w-full">
-      <h1 className="self-center mt-32 text-4xl font-bold tracking-widest text-center text-cream-500 max-md:mt-10 max-md:max-w-full">
+      <h1 className="self-center mt-26 text-4xl font-bold tracking-widest text-center text-cream-500 max-md:mt-10 max-md:max-w-full">
         Catalogue Coffee Bean
       </h1>
       <p className="self-center mt-3.5 text-2xl font-light tracking-wide text-center text-cream-300 max-md:max-w-full">
@@ -267,11 +271,12 @@ const JoinSection = () => {
   const { loading, registerSupplier } = usePostSupplier();
   const [ companyName, setCompanyName ] = useState('');
   const [ phone, setPhone ] = useState('');
+  const [ comodity, setComodity ] = useState('');
   const [ address, setAddress ] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerSupplier(companyName, phone, address);
+    await registerSupplier(companyName, phone, comodity, address);
   }
 
   return (
@@ -321,6 +326,14 @@ const JoinSection = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
+            <input 
+              type="text" 
+              id="comodity"
+              className="px-20 py-6 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5]"
+              placeholder="Comodity"
+              value={comodity}
+              onChange={(e) => setComodity(e.target.value)}
+            />
             <label htmlFor="address" className="sr-only">
               Address
             </label>
@@ -347,6 +360,35 @@ const JoinSection = () => {
   );
 }
 
+function Info({ children }) {
+  return (
+      <main className="px-5 mt-14 w-full max-w-[1251px] mx-auto max-md:mt-10 max-md:max-w-full">
+          <h1 className="self-center mt-20 pb-6 text-4xl font-bold tracking-widest text-center text-black max-md:mt-10 max-md:max-w-full">
+              KOPI<span className='text-cream-500'>IN</span>
+          </h1>
+          <div>
+          <div className="flex flex-col items-center p-6 font-black bg-cream-500 text-lg lg:text-base text-center text-black max-md:pr-5" style={{ letterSpacing: '1px', lineHeight: '2' }}>
+              <p>
+                  <span className="text-black p-2 rounded-lg">KOPI</span><span className='text-cream-100'>IN adalah destinasi utama bagi para pencinta kopi yang menginginkan pengalaman kopi yang otentik dan berkualitas. Sebagai toko kopi yang berdedikasi, kami menawarkan beragam biji kopi pilihan yang kami ambil langsung dari supplier-supplier ternama dan terpercaya. Dengan kehadiran di sembilan cabang yang tersebar luas, kami tidak hanya menawarkan kopi, tetapi juga menghadirkan sebuah komunitas tempat para pecinta kopi dapat berkumpul, berbagi cerita, dan mengeksplorasi ragam cita rasa kopi. Dengan fokus kami yang kuat pada kualitas, kami berkomitmen untuk memberikan pengalaman kopi yang tak terlupakan kepada setiap pelanggan kami.</span>
+              </p>
+          </div>
+
+          </div>
+          <h1 className="self-center mt-10 text-lg font-bold tracking-widest text-center text-black max-md:mt-10 max-md:max-w-full">
+              KOPI<span className="text-cream-500 p-1 rounded">IN</span>: Temukan Aroma <span className="text-cream-500 p-1 rounded">Sejati</span> dalam Setiap <span className="text-cream-500 p-1 rounded">Tetes</span>
+          </h1>
+      </main>
+  );
+}
+
+Info.propTypes = {
+  children: PropTypes.node,
+};
+
+Info.defaultProps = {
+  children: null,
+};
+
 function Footer() {
   return (
     <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
@@ -368,6 +410,7 @@ function Home() {
       <CatalogueSection />
       <OutletsSection/>
       <JoinSection/>
+      <Info />
       <Footer />
     </>
   );
