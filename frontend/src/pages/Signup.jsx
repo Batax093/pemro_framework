@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import GenderCheckbox from "./signupcheckbox";
+import GenderCheckbox from "./GenderCheckBox";
 import useSignup from "../hooks/useSignup";
 import { useState } from "react";
 

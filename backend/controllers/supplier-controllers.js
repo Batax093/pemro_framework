@@ -5,7 +5,7 @@ import { sendEmail } from "../utils/nodemailer.js"
 
 export const registerSupplier = async (req, res) => {
     try {
-        const { companyName, phone, address } = req.body
+        const { companyName, phone, address, comodity } = req.body
         const userid = req.user._id
 
         if(!userid){
@@ -32,7 +32,8 @@ export const registerSupplier = async (req, res) => {
                 supplierName: existingUser.fullName,
                 companyName,
                 phone,
-                address
+                address,
+                comodity
             }
         })
 
@@ -59,7 +60,7 @@ export const getSupplier = async (req, res) => {
 export const updateSupplier = async (req, res) => {
     try {
         const { receiverid } = req.params;
-        const { companyName, phone, address } = req.body;
+        const { companyName, phone, address, comodity } = req.body;
 
         if (!receiverid) {
             return res.status(401).json({ error: "Receiver ID is required!" });
@@ -77,6 +78,7 @@ export const updateSupplier = async (req, res) => {
         if (companyName) updateFields['profile.companyName'] = companyName;
         if (phone) updateFields['profile.phone'] = phone;
         if (address) updateFields['profile.address'] = address;
+        if (comodity) updateFields['profile.comodity'] = comodity;
 
         const updatedSupplier = await Supplier.findOneAndUpdate(
             { _id: receiverid },
@@ -95,6 +97,7 @@ export const updateSupplier = async (req, res) => {
                 ${companyName ? `<li>Company Name: ${companyName}</li>` : ''}
                 ${phone ? `<li>Phone: ${phone}</li>` : ''}
                 ${address ? `<li>Address: ${address}</li>` : ''}
+                ${comodity ? `<li>Comodity: ${comodity}</li>` : ''}
             </ul>
             <p>Thank you,</p>
             <p>Kopi Kreatif</p>

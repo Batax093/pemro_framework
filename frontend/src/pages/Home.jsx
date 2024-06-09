@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import useLogout from "../hooks/useLogout";
 import { BiLogOut } from "react-icons/bi";
@@ -82,8 +83,8 @@ function Header() {
             </div>
           </div>
           <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
-            <a href="#home" className="nav-link hover:text-cream-500">HOME</a>
-            <a href="#dst" className="nav-link hover:text-cream-500">SUPPLIER</a>
+            <Link to={"/"} className="nav-link hover:text-cream-500">HOME</Link>
+            <Link to="/supplier" className="nav-link hover:text-cream-500">SUPPLIER</Link>
             <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
             <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
           </nav>
