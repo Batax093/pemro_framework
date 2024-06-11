@@ -4,15 +4,16 @@ import toast from "react-hot-toast";
 const useUpdateSupplier = () => {
     const [ loading, setLoading ] = useState(false);
 
-    const updateSupplier = async (userid, companyName, phone, address) => {
-        const success = handleInputErrors(companyName, phone, address);
+    const updateSupplier = async (receiverid, companyName, comodity, phone, address) => {
+        const success = handleInputErrors(companyName, comodity, phone, address);
         if (!success) return;
         setLoading(true);
         try {
-            const res = await fetch("/api/supplier/update", {
-                method: "POST",
+            const res = await fetch(`/api/supplier/update/${receiverid}`, {
+                method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userid, companyName, phone, address }),
+                params: JSON.stringify({ receiverid }),
+                body: JSON.stringify({ receiverid, companyName, comodity, phone, address }),
             });
             const data = await res.json();
             if (data.error) {
@@ -30,8 +31,8 @@ const useUpdateSupplier = () => {
 
 export default useUpdateSupplier;
 
-function handleInputErrors(companyName, phone, address) {
-    if (!companyName || !phone || !address) {
+function handleInputErrors(companyName, comodity, phone, address) {
+    if (!companyName || !comodity || !phone || !address) {
         toast.error("Please fill in all fields");
         return false;
     }

@@ -5,7 +5,7 @@ import { sendEmail } from "../utils/nodemailer.js"
 
 export const registerSupplier = async (req, res) => {
     try {
-        const { companyName, phone, address } = req.body
+        const { companyName, comodity, phone, address } = req.body
         const userid = req.user._id
 
         if(!userid){
@@ -31,6 +31,7 @@ export const registerSupplier = async (req, res) => {
             profile: {
                 supplierName: existingUser.fullName,
                 companyName,
+                comodity,
                 phone,
                 address
             }
@@ -47,7 +48,7 @@ export const registerSupplier = async (req, res) => {
 
 export const getSupplier = async (req, res) => {
     try {
-        const filteredSupplier = await Supplier.find().select("email profile isDST -_id")
+        const filteredSupplier = await Supplier.find().select("email profile isDST")
         
         return res.status(201).json({filteredSupplier})
     } catch (error) {
@@ -59,7 +60,7 @@ export const getSupplier = async (req, res) => {
 export const updateSupplier = async (req, res) => {
     try {
         const { receiverid } = req.params;
-        const { companyName, phone, address } = req.body;
+        const { companyName, comodity, phone, address } = req.body;
 
         if (!receiverid) {
             return res.status(401).json({ error: "Receiver ID is required!" });
@@ -75,6 +76,7 @@ export const updateSupplier = async (req, res) => {
 
         const updateFields = {};
         if (companyName) updateFields['profile.companyName'] = companyName;
+        if (comodity) updateFields['profile.comodity'] = comodity;
         if (phone) updateFields['profile.phone'] = phone;
         if (address) updateFields['profile.address'] = address;
 
@@ -93,6 +95,7 @@ export const updateSupplier = async (req, res) => {
             <ul>
                 ${supplierName ? `<li>Supplier Name: ${supplierName}</li>` : ''}
                 ${companyName ? `<li>Company Name: ${companyName}</li>` : ''}
+                ${comodity ? `<li>Comodity: ${comodity}</li>` : ''}
                 ${phone ? `<li>Phone: ${phone}</li>` : ''}
                 ${address ? `<li>Address: ${address}</li>` : ''}
             </ul>

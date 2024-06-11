@@ -1,30 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 const useGetAnnouncement = () => {
-    const [ loading, setLoading ] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [suppliers, setSuppliers] = useState([]);
 
-    const getAnnouncement = async () => {
+    useEffect(() => {
         setLoading(true);
         try {
-            const res = await fetch("/api/announcement", {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            const data = await res.json();
-            if (data.error) {
-                throw new Error(data.error);
-            }  
-
-            return data;
+            fetch('http://localhost:3000/api/announcement/list')
+              .then((res) => {
+                return res.json();
+              })
+              .then((data) => {
+                setSuppliers(data.suppliers);
+                setLoading(false);
+              });
         } catch (error) {
-            toast.error(error.message);
-        } finally {
-            setLoading(false);
+          toast.error(error.message);
+          setLoading(false);
         }
-    }
+      }, []);
 
-    return { loading, getAnnouncement };
-}
+    return { loading, suppliers };
+};
 
-export default useGetAnnouncement
+export default useGetAnnouncement;

@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { BiLogOut } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { useEffect } from "react";
 import useLogout from "../hooks/useLogout";
+import useGetAnnouncement from '../hooks/useGetAnnouncement';
 
 function Header() {
     const { logout } = useLogout(); 
@@ -30,7 +32,7 @@ function Header() {
             </div>
             <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
               <Link to="/" className="nav-link hover:text-cream-500">HOME</Link>
-              <a href="#dst" className="nav-link hover:text-cream-500">SUPPLIER</a>
+              <Link to="/supplier" className="nav-link hover:text-cream-500">SUPPLIER</Link>
               <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
               <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
             </nav>
@@ -42,144 +44,56 @@ function Header() {
 
   function SupplierStatus({ imageSrc, altText, companyName, status, statusBgColor }) {
     return (
-      <article className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full">
-        <div className="flexr flex-col grow pt-11 w-full text-3xl tracking-widest text-center rounded-xl bg-cream-300 max-md:mt-10">
-          <div className="bg-cream-300 flex justify-center p-4">
-            <img loading="lazy" src={imageSrc} alt={altText} className="self-center max-w-full aspect-[1.49] w-[269px]" />
-          </div>
-          <div className="mt-6 font-bold text-2xl text-cream-500 text-center">{companyName}</div>
-          <div className={`justify-center px-11 py-5 mt-7 font-bold text-center text-cream-300 ${statusBgColor} rounded-b-lg`}>
-            {status}
-          </div>
-        </div>
-      </article>
+        <article className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full">
+            <div className="flex flex-col grow pt-11 w-full text-3xl tracking-widest text-center rounded-xl bg-cream-300 max-md:mt-10">
+                <div className="bg-cream-300 flex justify-center p-4">
+                    <img loading="lazy" src={imageSrc} alt={altText} className="self-center max-w-full aspect-[1.49] w-[269px]" />
+                </div>
+                <div className="mt-6 font-bold text-2xl text-cream-500 text-center">{companyName}</div>
+                <div className={`justify-center px-11 py-5 mt-7 font-bold text-center text-cream-300 ${statusBgColor} rounded-b-lg`}>
+                    {status}
+                </div>
+            </div>
+        </article>
     );
-  }
-  
-  SupplierStatus.propTypes = {
+}
+
+SupplierStatus.propTypes = {
     imageSrc: PropTypes.string.isRequired,
     altText: PropTypes.string.isRequired,
     companyName: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     statusBgColor: PropTypes.string.isRequired,
-  };
-  
-  SupplierStatus.propTypes = {
-    imageSrc: PropTypes.string.isRequired,
-    altText: PropTypes.string.isRequired,
-    companyName: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-    statusBgColor: PropTypes.string.isRequired,
-  };
-  
-  function NewsArticle({ imageSrc, altText, content }) {
+};
+
+function StatusSection() {
+    const { loading, suppliers } = useGetAnnouncement();
+
+    console.log("Suppliers:", suppliers);  // Logging
+
     return (
-      <article className="flex gap-0 max-md:flex-col max-md:gap-0">
-        <div className="flex flex-col w-[27%] max-md:ml-0 max-md:w-full">
-          <div className="flex flex-col grow justify-center px-9 py-11 w-full rounded-3xl bg-cream-500 max-md:px-5 mb-7">
-            <img loading="lazy" src={imageSrc} alt={altText} className="w-full aspect-[1.49]" />
-          </div>
-        </div>
-        <div className="flex flex-col ml-0 h-[20%] w-[72%] max-md:ml-0 max-md:w-full">
-          <div className="justify-center self-center px-5 py-8 w-full text-xl tracking-tight mt-8 bg-cream-300 text-cream-500 max-md:px-5 max-md:mt-8 max-md:max-w-full" style={{ letterSpacing: '0.5px'}}>
-            {content}
-          </div>
-        </div>
-      </article>
+        <>
+            {loading ? (
+                <div>Loading...</div>
+            ) : (
+                <div className="flex justify-center mt-20 w-full max-md:mt-10">
+                    <div className="flex justify-between w-full max-w-[90%]">
+                        {suppliers?.map((supplier, index) => (
+                            <SupplierStatus
+                                key={index}
+                                imageSrc={supplier.imageSrc}
+                                altText={supplier.altText}
+                                companyName={supplier.companyName}
+                                status={supplier.status}
+                                statusBgColor={supplier.statusBgColor}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+        </>
     );
-  }
-  
-  NewsArticle.propTypes = {
-    imageSrc: PropTypes.string.isRequired,
-    altText: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-  };
-  
-  function NewsSection() {
-    const articles = [
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "News Image 1",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla risus diam, eleifend consequat lacus elementum eget. Etiam non risus dui. Nullam a velit mi. Donec non ipsum eget purus cursus ultricies eget in magna. Cras hendrerit sit amet sem ut ullamcorper. Nam mauris turpis, sodales id finibus id, semper at arcu. Maecenas porttitor vehicula quam vel congue."
-      },
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "News Image 2",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla risus diam, eleifend consequat lacus elementum eget. Etiam non risus dui. Nullam a velit mi. Donec non ipsum eget purus cursus ultricies eget in magna. Cras hendrerit sit amet sem ut ullamcorper. Nam mauris turpis, sodales id finibus id, semper at arcu. Maecenas porttitor vehicula quam vel congue."
-      },
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "News Image 3",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla risus diam, eleifend consequat lacus elementum eget. Etiam non risus dui. Nullam a velit mi. Donec non ipsum eget purus cursus ultricies eget in magna. Cras hendrerit sit amet sem ut ullamcorper. Nam mauris turpis, sodales id finibus id, semper at arcu. Maecenas porttitor vehicula quam vel congue."
-      }
-    ];
-  
-    return (
-      <>
-        <section className="mt-11 text-4xl font-bold tracking-widest text-center text-cream-500 max-md:mt-10">
-          Berita Kopiin
-        </section>
-        <p className="mt-4 text-2xl font-light tracking-wide text-center text-cream-500 max-md:max-w-full">
-          Kumpulan Berita Terbaru Seputar Dunia Kopi
-        </p>
-        <main className="mt-10 w-full max-w-[1191px] max-md:max-w-full">
-          {articles.map((article, index) => (
-            <NewsArticle
-              key={index}
-              imageSrc={article.imageSrc}
-              altText={article.altText}
-              content={article.content}
-            />
-          ))}
-        </main>
-      </>
-    );
-  }
-  
-  function StatusSection() {
-    const suppliers = [
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "Supplier Image 1",
-        companyName: "PT Kopi Indonesia",
-        status: "Peninjauan",
-        statusBgColor: "bg-cream-500"
-      },
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "Supplier Image 2",
-        companyName: "CV Coffee Born",
-        status: "Diterima",
-        statusBgColor: "bg-cream-500"
-      },
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "Supplier Image 3",
-        companyName: "PT Luwak Nusantara",
-        status: "Ditolak",
-        statusBgColor: "bg-cream-500"
-      }
-    ];
-  
-    return (
-      <>
-        <div className="flex justify-center mt-20 w-full max-md:mt-10">
-        <div className="flex justify-between w-full max-w-[90%]">
-          {suppliers.map((supplier, index) => (
-            <SupplierStatus
-              key={index}
-              imageSrc={supplier.imageSrc}
-              altText={supplier.altText}
-              companyName={supplier.companyName}
-              status={supplier.status}
-              statusBgColor={supplier.statusBgColor}
-            />
-          ))}
-        </div>
-      </div>
-      </>
-    );
-  }
+}
   
   function Footer() {
     return (
@@ -199,7 +113,6 @@ function Header() {
     return (
         <>
         <Header />
-        <NewsSection />
         <StatusSection />
         <Footer />
       </>

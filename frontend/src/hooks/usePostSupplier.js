@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 const usePostSupplier = () => {
     const [loading, setLoading] = useState(false);
 
-    const registerSupplier = async (companyName, phone, address) => {
-        const success = handleInputErrors(companyName, phone, address);
+    const registerSupplier = async (companyName, comodity, phone, address) => {
+        const success = handleInputErrors(companyName, comodity, phone, address);
         if (!success) return;
 
         setLoading(true);
@@ -13,7 +13,7 @@ const usePostSupplier = () => {
             const res = await fetch("/api/supplier/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ companyName, phone, address }),
+                body: JSON.stringify({ companyName, comodity, phone, address }),
             });
 
             const data = await res.json();

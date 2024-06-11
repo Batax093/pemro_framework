@@ -82,8 +82,8 @@ function Header() {
             </div>
           </div>
           <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
-            <a href="#home" className="nav-link hover:text-cream-500">HOME</a>
-            <a href="#dst" className="nav-link hover:text-cream-500">SUPPLIER</a>
+            <Link to="/" className="nav-link hover:text-cream-500">HOME</Link>
+            <Link to="/supplier" className="nav-link hover:text-cream-500">SUPPLIER</Link>
             <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
             <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
           </nav>
@@ -276,7 +276,16 @@ const JoinSection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registerSupplier(companyName, phone, comodity, address);
+    try {
+      await registerSupplier(companyName, comodity, phone, address);
+      // Reset form fields
+      setCompanyName("");
+      setPhone("");
+      setComodity("");
+      setAddress("");
+    } catch (error) {
+      toast.error("Failed to update supplier");
+    }
   }
 
   return (
