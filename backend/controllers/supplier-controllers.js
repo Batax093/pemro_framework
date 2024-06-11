@@ -33,7 +33,8 @@ export const registerSupplier = async (req, res) => {
                 companyName,
                 comodity,
                 phone,
-                address
+                address,
+                comodity
             }
         })
 
@@ -79,6 +80,7 @@ export const updateSupplier = async (req, res) => {
         if (comodity) updateFields['profile.comodity'] = comodity;
         if (phone) updateFields['profile.phone'] = phone;
         if (address) updateFields['profile.address'] = address;
+        if (comodity) updateFields['profile.comodity'] = comodity;
 
         const updatedSupplier = await Supplier.findOneAndUpdate(
             { _id: receiverid },
@@ -98,6 +100,7 @@ export const updateSupplier = async (req, res) => {
                 ${comodity ? `<li>Comodity: ${comodity}</li>` : ''}
                 ${phone ? `<li>Phone: ${phone}</li>` : ''}
                 ${address ? `<li>Address: ${address}</li>` : ''}
+                ${comodity ? `<li>Comodity: ${comodity}</li>` : ''}
             </ul>
             <p>Thank you,</p>
             <p>Kopi Kreatif</p>

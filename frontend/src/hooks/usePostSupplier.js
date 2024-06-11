@@ -34,8 +34,8 @@ const usePostSupplier = () => {
 
 export default usePostSupplier;
 
-function handleInputErrors(companyName, phone, address) {
-    if (!companyName || !phone || !address) {
+function handleInputErrors(companyName, phone, address, comodity) {
+    if (!companyName || !phone || !address || !comodity) {
         toast.error("Please fill in all fields");
         return false;
     }
