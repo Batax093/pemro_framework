@@ -1,30 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const useGetSupplier = () => {
     const [ loading, setLoading ] = useState(false);
+    const [ suppliers, setSuppliers ] = useState([]);
 
-    const getSupplier = async () => {
+    useEffect(() => {
+      const getSupplier = async () => {
         setLoading(true);
         try {
-            const res = await fetch("/api/supplier", {
+            const res = await fetch("/api/supplier/list", {
                 method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
+            })
             const data = await res.json();
             if (data.error) {
-                throw new Error(data.error);
+              throw new Error(data.error);
             }
-
-            return data;
+            setSuppliers(data);
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
         }
-    }
+      }
 
-    return { loading, getSupplier };
+      getSupplier();
+    }, []);
+
+    return { loading, suppliers };
 }
 
 export default useGetSupplier

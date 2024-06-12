@@ -154,16 +154,12 @@ function CatalogueSection() {
   const [popupInfo, setPopupInfo] = useState(null);
 
   const openPopup = (coffee) => {
-    console.log("Open pop-up with coffee:", coffee);
     setPopupInfo(coffee);
   };
 
   const closePopup = () => {
-    console.log("Close pop-up");
     setPopupInfo(null);
   };
-
-  console.log("popupInfo:", popupInfo);
 
   return (
     <main className="px-5 mt-14 w-full max-w-[1251px] mx-auto max-md:mt-10 max-md:max-w-full">
@@ -223,16 +219,12 @@ function OutletsSection() {
   const [popupInfo, setPopupInfo] = useState(null);
 
   const openPopup = (outlet) => {
-    console.log("Open pop-up with outlet:", outlet);
     setPopupInfo(outlet);
   };
 
   const closePopup = () => {
-    console.log("Close pop-up");
     setPopupInfo(null);
   };
-
-  console.log("popupInfo:", popupInfo);
 
   return (
     <section className="px-5 mt-14 w-full max-w-[1363px] mx-auto max-md:mt-10 max-md:max-w-full">

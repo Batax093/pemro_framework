@@ -1,30 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const useGetDST = () => {
     const [ loading, setLoading ] = useState(false);
+    const [ dst, setdst ] = useState([]);
 
-    const getDST = async () => {
-        setLoading(true);
-        try {
-            const res = await fetch("/api/dst", {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            const data = await res.json();
-            if (data.error) {
-                throw new Error(data.error);
+    useEffect(() => {
+        const getDST = async () => {
+            setLoading(true);
+            try {
+                const res = await fetch("/api/dst/list", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                });
+                const data = await res.json();
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+    
+                setdst(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
             }
-
-            return data;
-        } catch (error) {
-            toast.error(error.message);
-        } finally {
-            setLoading(false);
         }
-    }
 
-    return { loading, getDST };
+        getDST();
+    }, [])
+
+    return { loading, dst };
 }
 
 export default useGetDST

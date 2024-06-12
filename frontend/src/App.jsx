@@ -22,9 +22,9 @@ function App() {
         <Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
         <Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
         <Route path='/signup' element={authUser ? <Navigate to='/' /> : <Signup />} />
-        <Route path='/announcement' element={<Announcement />} />
-        <Route path='/supplier' element={<Supplier />} />
-        <Route path='/detail' element={<DetailSupplier />} />
+        <Route path='/announcement' element={authUser ? <Announcement /> : <Navigate to='/login' />} />
+        <Route path='/supplier' element={authUser ? <Supplier /> : <Navigate to='/login' />} />
+        <Route path='/detail' element={authUser ? <DetailSupplier /> : <Navigate to='/login' />} />
       </Routes>
     </>
   )

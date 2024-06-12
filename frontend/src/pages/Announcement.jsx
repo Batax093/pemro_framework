@@ -3,6 +3,9 @@ import { BiLogOut } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import useLogout from "../hooks/useLogout";
 
+import useGetAnnouncement from '../hooks/useGetAnnouncement';
+import useGetDST from '../hooks/useGetDST';
+
 function Header() {
     const { logout } = useLogout(); 
   
@@ -72,7 +75,7 @@ function Header() {
     statusBgColor: PropTypes.string.isRequired,
   };
   
-  function NewsArticle({ imageSrc, altText, content }) {
+  function NewsArticle({ imageSrc, altText, content, title }) {
     return (
       <article className="flex gap-0 max-md:flex-col max-md:gap-0">
         <div className="flex flex-col w-[27%] max-md:ml-0 max-md:w-full">
@@ -84,6 +87,9 @@ function Header() {
           <div className="justify-center self-center px-5 py-8 w-full text-xl tracking-tight mt-8 bg-cream-300 text-cream-500 max-md:px-5 max-md:mt-8 max-md:max-w-full" style={{ letterSpacing: '0.5px'}}>
             {content}
           </div>
+          <div className="justify-center self-center px-5 py-8 w-full text-xl tracking-tight mt-8 bg-cream-300 text-cream-500 max-md:px-5 max-md:mt-8 max-md:max-w-full" style={{ letterSpacing: '0.5px'}}>
+            {title}
+          </div>
         </div>
       </article>
     );
@@ -93,26 +99,11 @@ function Header() {
     imageSrc: PropTypes.string.isRequired,
     altText: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
   };
   
   function NewsSection() {
-    const articles = [
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "News Image 1",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla risus diam, eleifend consequat lacus elementum eget. Etiam non risus dui. Nullam a velit mi. Donec non ipsum eget purus cursus ultricies eget in magna. Cras hendrerit sit amet sem ut ullamcorper. Nam mauris turpis, sodales id finibus id, semper at arcu. Maecenas porttitor vehicula quam vel congue."
-      },
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "News Image 2",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla risus diam, eleifend consequat lacus elementum eget. Etiam non risus dui. Nullam a velit mi. Donec non ipsum eget purus cursus ultricies eget in magna. Cras hendrerit sit amet sem ut ullamcorper. Nam mauris turpis, sodales id finibus id, semper at arcu. Maecenas porttitor vehicula quam vel congue."
-      },
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "News Image 3",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla risus diam, eleifend consequat lacus elementum eget. Etiam non risus dui. Nullam a velit mi. Donec non ipsum eget purus cursus ultricies eget in magna. Cras hendrerit sit amet sem ut ullamcorper. Nam mauris turpis, sodales id finibus id, semper at arcu. Maecenas porttitor vehicula quam vel congue."
-      }
-    ];
+    const { announcements } = useGetAnnouncement();
   
     return (
       <>
@@ -123,12 +114,15 @@ function Header() {
           Kumpulan Berita Terbaru Seputar Dunia Kopi
         </p>
         <main className="mt-10 w-full max-w-[1191px] max-md:max-w-full">
-          {articles.map((article, index) => (
+          {Array.isArray(announcements.announcement) && announcements.announcement.map((announcement, index) => (
             <NewsArticle
               key={index}
-              imageSrc={article.imageSrc}
-              altText={article.altText}
-              content={article.content}
+              index={index}
+              announcement={announcement}
+              imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
+              altText={announcement.title || "N/A"}
+              content={announcement.content || "N/A"}
+              title={announcement.title || "N/A"}
             />
           ))}
         </main>
@@ -137,42 +131,21 @@ function Header() {
   }
   
   function StatusSection() {
-    const suppliers = [
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "Supplier Image 1",
-        companyName: "PT Kopi Indonesia",
-        status: "Peninjauan",
-        statusBgColor: "bg-cream-500"
-      },
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "Supplier Image 2",
-        companyName: "CV Coffee Born",
-        status: "Diterima",
-        statusBgColor: "bg-cream-500"
-      },
-      {
-        imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&",
-        altText: "Supplier Image 3",
-        companyName: "PT Luwak Nusantara",
-        status: "Ditolak",
-        statusBgColor: "bg-cream-500"
-      }
-    ];
+    const { dst } = useGetDST();
   
     return (
       <>
         <div className="flex justify-center mt-20 w-full max-md:mt-10">
         <div className="flex justify-between w-full max-w-[90%]">
-          {suppliers.map((supplier, index) => (
+          {Array.isArray(dst.DST)&& dst.DST.map((supplierTetap, index) => (
             <SupplierStatus
               key={index}
-              imageSrc={supplier.imageSrc}
-              altText={supplier.altText}
-              companyName={supplier.companyName}
-              status={supplier.status}
-              statusBgColor={supplier.statusBgColor}
+              supplierTetap={supplierTetap}
+              imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
+              altText='test'
+              companyName={supplierTetap.approvedBy || "N/A"}
+              status={supplierTetap.status}
+              statusBgColor='bg-cream-500'
             />
           ))}
         </div>
