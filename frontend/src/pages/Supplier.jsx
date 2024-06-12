@@ -1,5 +1,46 @@
 import PropType from "prop-types";
-function SupplierCard({ company, product, imgSrc, viewLink, editLink }) {
+import useLogout from "../hooks/useLogout";
+import { BiLogOut } from "react-icons/bi";
+import { Link } from "react-router-dom";
+
+function Header() {
+  const { logout } = useLogout(); 
+
+  const handleLogout = () => {
+    const confirmed = window.confirm("Apakah Anda yakin ingin logout?");
+    if (confirmed) {
+      logout();
+    }
+  };
+
+  return (
+    <header className="flex flex-col items-center pt-3.5 bg-white">
+      <div className="flex flex-col self-stretch px-5 w-full max-md:max-w-full">
+        <div className="flex gap-5 justify-between w-full text-base font-black max-md:flex-wrap max-md:pr-5 max-md:max-w-full">
+          <div className="flex gap-0 text-cream-500">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/3a3a8837372790f6a0677ab4b14c0459c08ebdba3958ac0805e14f2d8625532d?apiKey=b1d7a673afae4361a48ecfd33debe811&'"
+              className="shrink-0 aspect-square w-[70px]"
+              alt="KopiIn Logo"
+            />
+            <div className="my-auto text-black">
+              <span>KOPI<span className="text-cream-500">IN</span></span>
+            </div>
+          </div>
+          <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
+            <Link to="/" className="nav-link hover:text-cream-500">HOME</Link>
+            <Link to={"/supplier"} className="nav-link hover:text-cream-500">SUPPLIER</Link>
+            <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
+            <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function SupplierCard({ company, product, imgSrc, editLink }) {
   return (
     <section className="flex gap-5 mb-10 p-8 bg-lime-50 rounded-xl w-[1236px] max-md:flex-wrap max-md:pr-5">
       <div className="flex-auto max-md:max-w-full">
@@ -14,7 +55,7 @@ function SupplierCard({ company, product, imgSrc, viewLink, editLink }) {
         </figure>
       </div>
       <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-stone-400">
-        <a href={viewLink} className="justify-center px-14 py-5 mb-6 rounded-xl bg-stone-500 text-white max-md:px-5" tabIndex="0">View</a>
+        <Link to='/detail' className="justify-center px-14 py-5 mb-6 rounded-xl bg-stone-500 text-white max-md:px-5" tabIndex="0">View</Link>
         <a href={editLink} className="justify-center px-16 py-5 rounded-xl bg-stone-500 text-white max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</a>
       </nav>
     </section>
@@ -55,6 +96,8 @@ function Supplier() {
   ];
 
   return (
+    <>
+    <Header />
     <div className="flex flex-col items-center pt-12 bg-white">
       <header className="text-center">
         <h1 className="text-4xl font-bold text-stone-500">Supplier</h1>
@@ -80,6 +123,7 @@ function Supplier() {
         <div className="flex-auto my-auto text-xs max-md:max-w-full"> Made by <span className="text-stone-500">Love</span> </div>
       </footer>
     </div>
+    </>
   );
 }
 

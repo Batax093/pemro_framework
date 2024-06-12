@@ -7,6 +7,7 @@ import Signup from './pages/Signup.jsx'
 import Home from './pages/Home.jsx'
 import Announcement from './pages/Announcement.jsx'
 import Supplier from './pages/Supplier.jsx'
+import DetailSupplier from './pages/DetailSupplier.jsx'
 
 import { useAuthContext } from '../src/context/authContext.jsx'
 import { Toaster } from 'react-hot-toast'
@@ -23,6 +24,7 @@ function App() {
         <Route path='/signup' element={authUser ? <Navigate to='/' /> : <Signup />} />
         <Route path='/announcement' element={<Announcement />} />
         <Route path='/supplier' element={<Supplier />} />
+        <Route path='/detail' element={<DetailSupplier />} />
       </Routes>
     </>
   )

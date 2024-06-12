@@ -30,7 +30,7 @@ function Header() {
             </div>
             <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
               <Link to="/" className="nav-link hover:text-cream-500">HOME</Link>
-              <a href="#dst" className="nav-link hover:text-cream-500">SUPPLIER</a>
+              <Link to={"/supplier"} className="nav-link hover:text-cream-500">SUPPLIER</Link>
               <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
               <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
             </nav>
