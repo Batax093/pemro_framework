@@ -54,6 +54,10 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
     setShowUpdate(index);
   };
 
+  const handleDeleteClick = () => {
+    handleDelete(data._id);
+  };
+
   return (
     <section className="flex gap-5 mb-10 p-8 bg-cream-50 rounded-xl w-[1236px] max-md:flex-wrap max-md:pr-5">
       <div className="flex-auto max-md:max-w-full">
@@ -69,7 +73,8 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
       </div>
       <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-cream-300">
         <button onClick={handleView} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">View</button>
-        <button onClick={handleUpdate} className="justify-center px-16 py-5 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>
+        <button onClick={handleUpdate} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>
+        <button onClick={handleDeleteClick} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Delete</button>
       </nav>
     </section>
   );
@@ -132,7 +137,7 @@ function SupplierModals({data, setShowModal}) {
                     type="button"
                     onClick={() => setShowModal(NaN)}
                   >
-                    Save Changes
+                    Submit DST
                   </button>
                 </div>
               </div>
@@ -170,7 +175,7 @@ function UpdateModals({ data, setShowUpdate }) {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+        <div className="relative w-[30%] my-6 mx-auto max-w-3xl">
           {/*content*/}
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/*header*/}
@@ -195,7 +200,7 @@ function UpdateModals({ data, setShowUpdate }) {
               <input
                 type="text"
                 id="companyName"
-                className="px-20 py-5 mt-8 bg-cream-50 rounded-md max-md:pr-5"
+                className="px-10 py-5 mt-8 bg-cream-50 rounded-md max-md:pr-5"
                 placeholder="Company Name"
                 value={inputs.companyName}
                 onChange={(e) =>
@@ -208,7 +213,7 @@ function UpdateModals({ data, setShowUpdate }) {
               <input
                 type="text"
                 id="phone"
-                className="px-20 py-6 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
+                className="px-10 py-6 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
                 placeholder="Phone"
                 value={inputs.phone}
                 onChange={(e) =>
@@ -221,7 +226,7 @@ function UpdateModals({ data, setShowUpdate }) {
               <input
                 type="text"
                 id="address"
-                className="px-20 pt-6 pb-24 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
+                className="px-10 pt-6 pb-24 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
                 placeholder="Address"
                 value={inputs.address}
                 onChange={(e) =>
@@ -234,7 +239,7 @@ function UpdateModals({ data, setShowUpdate }) {
               <input
                 type="text"
                 id="comodity"
-                className="px-20 py-6 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
+                className="px-10 py-6 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
                 placeholder="Comodity"
                 value={inputs.comodity}
                 onChange={(e) =>
@@ -274,37 +279,49 @@ function Supplier() {
   const [ showModal, setShowModal ] = useState(NaN);
   const [ showUpdate, setShowUpdate ] = useState(NaN);
 
+  const handleDelete = async (id) => {
+    try {
+      // Call your delete API here
+      await deleteSupplier(id);
+      // Refresh the page or update the state to remove the deleted supplier
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to delete supplier:", error);
+    }
+  };
+
   return (
     <>
-    {!isNaN(showModal) && <SupplierModals data={suppliers.filteredSupplier[showModal]} setShowModal={setShowModal} />}
-    {!isNaN(showUpdate) && <UpdateModals data={suppliers.filteredSupplier[showUpdate]} setShowUpdate={setShowUpdate} />}
-    <Header />
-    <div className="flex flex-col items-center pt-12 bg-white">
-      <header className="text-center">
-        <h1 className="text-4xl font-bold text-cream-500">Supplier</h1>
-        <p className="mt-5 text-2xl font-light text-cream-300">Data supplier yang telah daftar</p>
-      </header>
-      <main className="mt-24 w-full max-md:mt-10">
-        {Array.isArray(suppliers.filteredSupplier) && suppliers.filteredSupplier.map((supplier, index) => (
-          <SupplierCard
-            key={index}
-            data={supplier}
-            index={index}
-            setShowModal={setShowModal}
-            setShowUpdate={setShowUpdate}
-          />
-        ))}
-      </main>
-      <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
-        <div className="flex gap-0 self-start text-xs">
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/842f289a92a736d584a41d50b015c85a329d014de5e471a5927bab8fac105dde?apiKey=b1d7a673afae4361a48ecfd33debe811&" className="shrink-0 aspect-[0.93] w-[39px]" alt="Footer Logo" />
-          <div className="my-auto">KOPI<span className="text-cream-500">IN</span></div>
-        </div>
-        <div className="flex-auto my-auto text-xs max-md:max-w-full">
-          Made by <span className="text-cream-500">Love</span>
-        </div>
-    </footer>
-    </div>
+      {!isNaN(showModal) && <SupplierModals data={suppliers.filteredSupplier[showModal]} setShowModal={setShowModal} />}
+      {!isNaN(showUpdate) && <UpdateModals data={suppliers.filteredSupplier[showUpdate]} setShowUpdate={setShowUpdate} />}
+      <Header />
+      <div className="flex flex-col items-center pt-12 bg-white">
+        <header className="text-center">
+          <h1 className="text-4xl font-bold text-cream-500">Supplier</h1>
+          <p className="mt-5 text-2xl font-light text-cream-300">Data supplier yang telah daftar</p>
+        </header>
+        <main className="mt-24 w-full max-md:mt-10">
+          {Array.isArray(suppliers.filteredSupplier) && suppliers.filteredSupplier.map((supplier, index) => (
+            <SupplierCard
+              key={index}
+              data={supplier}
+              index={index}
+              setShowModal={setShowModal}
+              setShowUpdate={setShowUpdate}
+              handleDelete={handleDelete}
+            />
+          ))}
+        </main>
+        <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
+          <div className="flex gap-0 self-start text-xs">
+            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/842f289a92a736d584a41d50b015c85a329d014de5e471a5927bab8fac105dde?apiKey=b1d7a673afae4361a48ecfd33debe811&" className="shrink-0 aspect-[0.93] w-[39px]" alt="Footer Logo" />
+            <div className="my-auto">KOPI<span className="text-cream-500">IN</span></div>
+          </div>
+          <div className="flex-auto my-auto text-xs max-md:max-w-full">
+            Made by <span className="text-cream-500">Love</span>
+          </div>
+        </footer>
+      </div>
     </>
   );
 }

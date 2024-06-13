@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import { BiLogOut } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import { useState } from "react";
 import useLogout from "../hooks/useLogout";
 import useGetAnnouncement from '../hooks/useGetAnnouncement';
 import useGetDST from '../hooks/useGetDST';
-
-import useGetAnnouncement from '../hooks/useGetAnnouncement';
-import useGetDST from '../hooks/useGetDST';
+import usePostAnnouncement from '../hooks/usePostAnnouncement';
 
 function Header() {
     const { logout } = useLogout(); 
@@ -69,14 +68,6 @@ function Header() {
     statusBgColor: PropTypes.string.isRequired,
   };
   
-  SupplierStatus.propTypes = {
-    imageSrc: PropTypes.string.isRequired,
-    altText: PropTypes.string.isRequired,
-    companyName: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-    statusBgColor: PropTypes.string.isRequired,
-  };
-  
   function NewsArticle({ imageSrc, altText, content, title }) {
     return (
       <article className="flex gap-0 max-md:flex-col max-md:gap-0">
@@ -88,8 +79,6 @@ function Header() {
         <div className="flex flex-col ml-0 h-[20%] w-[72%] max-md:ml-0 max-md:w-full">
           <div className="justify-center self-center px-5 py-8 w-full text-xl tracking-tight mt-8 bg-cream-300 text-cream-500 max-md:px-5 max-md:mt-8 max-md:max-w-full" style={{ letterSpacing: '0.5px'}}>
             {content}
-          </div>
-          <div className="justify-center self-center px-5 py-8 w-full text-xl tracking-tight mt-8 bg-cream-300 text-cream-500 max-md:px-5 max-md:mt-8 max-md:max-w-full" style={{ letterSpacing: '0.5px'}}>
             {title}
           </div>
         </div>
@@ -128,6 +117,7 @@ function Header() {
             />
           ))}
         </main>
+        {/* {showCreateModal && <CreateAnnouncementModal setShowCreateModal={setShowCreateModal} />} */}
       </>
     );
   }
@@ -155,7 +145,112 @@ function Header() {
       </>
     );
   }
+
+  function CreateAnnouncementModal() {
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const { loading, postAnnouncement } = usePostAnnouncement();
   
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        await postAnnouncement(title, content); // Mengirim pengumuman dengan data title dan content
+        setShowCreateModal(false); // Tutup modal setelah berhasil dikirim
+        window.location.reload(); // Opsional: Refresh halaman jika perlu
+      } catch (error) {
+        console.error('Error posting announcement:', error);
+        // Handle error jika diperlukan
+      }
+    };
+  
+  
+  return (
+    <div>
+      {/* Tombol atau elemen untuk memunculkan modal */}
+      <button
+        onClick={() => setShowCreateModal(true)}
+        className="px-4 py-2 font-bold text-white bg-cream-500 rounded hover:bg-cream-600"
+      >
+        Create Announcement
+      </button>
+
+      {/* Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+          <div className="relative w-auto max-w-3xl mx-auto my-6">
+            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                <h3 className="text-3xl font-semibold text-cream-500">
+                  Create Announcement
+                </h3>
+                <button
+                  className="p-1 ml-auto text-3xl font-semibold leading-none bg-transparent border-0 outline-none focus:outline-none"
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  <span className="block w-6 h-6 text-2xl text-black bg-transparent outline-none focus:outline-none">
+                    ×
+                  </span>
+                </button>
+              </div>
+              <div className="relative flex-auto p-6">
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-4">
+                    <label htmlFor="title" className="block mb-2 text-sm font-bold text-gray-700">
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <label htmlFor="content" className="block mb-2 text-sm font-bold text-gray-700">
+                      Content
+                    </label>
+                    <textarea
+                      id="content"
+                      className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                    <button
+                      className="px-4 py-2 mr-2 font-bold text-cream-500 bg-cream-50 rounded hover:bg-cream-100"
+                      type="button"
+                      onClick={() => setShowCreateModal(false)}
+                    >
+                      Close
+                    </button>
+                    <button
+                      className="px-4 py-2 font-bold text-white bg-cream-500 rounded hover:bg-cream-600"
+                      type="submit"
+                      disabled={loading}
+                    >
+                      {loading ? "Saving..." : "Save"}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
+        </div>
+      )}
+    </div>
+  );
+}
+  
+  CreateAnnouncementModal.propTypes = {
+    setShowCreateModal: PropTypes.func.isRequired,
+  };
+
   function Footer() {
     return (
       <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
@@ -176,6 +271,7 @@ function Header() {
         <Header />
         <NewsSection />
         <StatusSection />
+        <CreateAnnouncementModal />
         <Footer />
       </>
     );
