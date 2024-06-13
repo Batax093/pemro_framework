@@ -67,7 +67,7 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
           </figcaption>
         </figure>
       </div>
-      <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-cream-400">
+      <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-cream-300">
         <button onClick={handleView} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">View</button>
         <button onClick={handleUpdate} className="justify-center px-16 py-5 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>
       </nav>

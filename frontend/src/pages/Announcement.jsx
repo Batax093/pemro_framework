@@ -5,6 +5,9 @@ import useLogout from "../hooks/useLogout";
 import useGetAnnouncement from '../hooks/useGetAnnouncement';
 import useGetDST from '../hooks/useGetDST';
 
+import useGetAnnouncement from '../hooks/useGetAnnouncement';
+import useGetDST from '../hooks/useGetDST';
+
 function Header() {
     const { logout } = useLogout(); 
   
