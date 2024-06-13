@@ -119,7 +119,7 @@ function Header() {
             />
           ))}
         </main>
-        {/* {showCreateModal && <CreateAnnouncementModal setShowCreateModal={setShowCreateModal} />} */}
+        {/* {shambahowCreateModal && <CreateAnnouncementModal setShowCreateModal={setShowCreateModal} />} */}
       </>
     );
   }
