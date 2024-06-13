@@ -5,7 +5,9 @@ import { useState } from "react";
 import useLogout from "../hooks/useLogout";
 import useGetAnnouncement from '../hooks/useGetAnnouncement';
 import useGetDST from '../hooks/useGetDST';
-import usePostAnnouncement from '../hooks/usePostAnnouncement';
+
+import useGetAnnouncement from '../hooks/useGetAnnouncement';
+import useGetDST from '../hooks/useGetDST';
 
 function Header() {
     const { logout } = useLogout(); 
