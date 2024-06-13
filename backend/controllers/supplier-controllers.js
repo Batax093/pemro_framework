@@ -48,7 +48,7 @@ export const registerSupplier = async (req, res) => {
 
 export const getSupplier = async (req, res) => {
     try {
-        const filteredSupplier = await Supplier.find().select("email profile isDST -_id")
+        const filteredSupplier = await Supplier.find().select("email profile isDST _id")
         
         return res.status(201).json({filteredSupplier})
     } catch (error) {
@@ -68,11 +68,11 @@ export const updateSupplier = async (req, res) => {
 
         const existingSupplier = await Supplier.findById(receiverid);
 
-        const { supplierName } = await User.findOne({ _id: existingSupplier.userid }).select("fullName -_id");
-
         if (!existingSupplier) {
             return res.status(401).json({ error: "Supplier not found!" });
         }
+
+        const { supplierName } = await User.findOne({ _id: existingSupplier.userid }).select("fullName -_id");
 
         const updateFields = {};
         if (companyName) updateFields['profile.companyName'] = companyName;
@@ -85,6 +85,10 @@ export const updateSupplier = async (req, res) => {
             { $set: updateFields },
             { new: true }
         );
+
+        if (!updatedSupplier) {
+            return res.status(401).json({ error: "Supplier not found!" });
+        }
 
         const emailSubject = 'Announcement: Supplier Profile Updated'
         const emailText = 'Your supplier profile has been successfully updated.'
@@ -131,6 +135,27 @@ export const applyforDST = async (req, res) => {
         return res.status(201).json({ newDST })
     } catch (error) {
         console.log("Error while applying for DST: ", error.message)
+        return res.status(500).json({ error: "Internal server error" })
+    }
+}
+
+export const detailSupplier = async (req, res) => {
+    try {
+        const { receiverid } = req.params;
+
+        if (!receiverid) {
+            return res.status(401).json({ error: "Receiver ID is required!" }); 
+        }
+
+        const selectedSupplier = await Supplier.findById(receiverid).select("profile isDST");
+
+        if (!selectedSupplier) {
+            return res.status(401).json({ error: "Supplier not found!" });
+        }
+
+        return res.status(201).json({ selectedSupplier });
+    } catch (error) {
+        console.log("Error while getting supplier: ", error.message)
         return res.status(500).json({ error: "Internal server error" })
     }
 }
