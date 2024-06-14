@@ -9,7 +9,7 @@ const usePostAnnouncement = () => {
         if (!success) return;
         setLoading(true);
         try {
-            const res = await fetch("/api/announcement", {
+            const res = await fetch("/api/announcement/post", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ title, content }),
@@ -18,6 +18,8 @@ const usePostAnnouncement = () => {
             if (data.error) {
                 throw new Error(data.error);
             }
+            toast.success("Announcement posted successfully!");
+            return data;
         } catch (error) {
             toast.error(error.message);
         } finally {

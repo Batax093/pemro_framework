@@ -56,23 +56,25 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
   };
 
   return (
-    <section className="flex gap-5 mb-10 p-8 bg-cream-50 rounded-xl w-[1236px] max-md:flex-wrap max-md:pr-5">
-      <div className="flex-auto max-md:max-w-full">
-        <figure className="flex gap-5 max-md:flex-col max-md:gap-0">
-          <div className="flex flex-col w-[45%] max-md:w-full">
-            <img loading="lazy" src='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&' className="w-full aspect-[1.56] max-md:mt-4" alt={`${profile.company} logo`} />
-          </div>
-          <figcaption className="flex flex-col ml-5 w-[55%] text-center text-cream-500 max-md:w-full">
-            <h2 className="text-4xl mt-7 tracking-widest font-bold">{profile.companyName}</h2>
-            <p className="text-3xl mt-1.5 tracking-widest">{profile.email}</p>
-          </figcaption>
-        </figure>
-      </div>
-      <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-cream-300">
-        <button onClick={handleView} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">View</button>
-        <button onClick={handleUpdate} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>
-      </nav>
-    </section>
+    <>
+      <section className="flex gap-5 mb-10 p-8 bg-cream-50 rounded-xl w-[1236px] max-md:flex-wrap max-md:pr-5">
+        <div className="flex-auto max-md:max-w-full">
+          <figure className="flex gap-5 max-md:flex-col max-md:gap-0">
+            <div className="flex flex-col w-[45%] max-md:w-full">
+              <img loading="lazy" src='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&' className="w-full aspect-[1.56] max-md:mt-4" alt={`${profile.company} logo`} />
+            </div>
+            <figcaption className="flex flex-col ml-5 w-[55%] text-center text-cream-500 max-md:w-full">
+              <h2 className="text-4xl mt-7 tracking-widest font-bold">{profile.companyName}</h2>
+              <p className="text-3xl mt-1.5 tracking-widest">{profile.email}</p>
+            </figcaption>
+          </figure>
+        </div>
+        <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-cream-300">
+          <button onClick={handleView} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">View</button>
+          <button onClick={handleUpdate} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>
+        </nav>
+      </section>
+    </>
   );
 }
 function SupplierModals({data, setShowModal}) {
