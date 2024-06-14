@@ -55,10 +55,6 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
     setShowUpdate(index);
   };
 
-  const handleDeleteClick = () => {
-    handleDelete(data._id);
-  };
-
   return (
     <section className="flex gap-5 mb-10 p-8 bg-cream-50 rounded-xl w-[1236px] max-md:flex-wrap max-md:pr-5">
       <div className="flex-auto max-md:max-w-full">
@@ -75,7 +71,6 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
       <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-cream-300">
         <button onClick={handleView} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">View</button>
         <button onClick={handleUpdate} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>
-        <button onClick={handleDeleteClick} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Delete</button>
       </nav>
     </section>
   );
@@ -288,17 +283,6 @@ function Supplier() {
   const [ showModal, setShowModal ] = useState(NaN);
   const [ showUpdate, setShowUpdate ] = useState(NaN);
 
-  const handleDelete = async (id) => {
-    try {
-      // Call your delete API here
-      await deleteSupplier(id);
-      // Refresh the page or update the state to remove the deleted supplier
-      window.location.reload();
-    } catch (error) {
-      console.error("Failed to delete supplier:", error);
-    }
-  };
-
   return (
     <>
       {!isNaN(showModal) && <SupplierModals data={suppliers.filteredSupplier[showModal]} setShowModal={setShowModal} />}
@@ -317,7 +301,6 @@ function Supplier() {
               index={index}
               setShowModal={setShowModal}
               setShowUpdate={setShowUpdate}
-              handleDelete={handleDelete}
             />
           ))}
         </main>
