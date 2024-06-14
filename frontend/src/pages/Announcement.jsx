@@ -5,9 +5,7 @@ import { useState } from "react";
 import useLogout from "../hooks/useLogout";
 import useGetAnnouncement from '../hooks/useGetAnnouncement';
 import useGetDST from '../hooks/useGetDST';
-
-import useGetAnnouncement from '../hooks/useGetAnnouncement';
-import useGetDST from '../hooks/useGetDST';
+import usePostAnnouncement from '../hooks/usePostAnnouncement';
 
 function Header() {
     const { logout } = useLogout(); 
@@ -46,17 +44,18 @@ function Header() {
     );
   }
 
-  function SupplierStatus({ imageSrc, altText, companyName, status, statusBgColor }) {
+  function SupplierStatus({ imageSrc, altText, approvedBy, companyName, status, statusBgColor }) {
     return (
       <article className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full">
         <div className="flexr flex-col grow pt-11 w-full text-3xl tracking-widest text-center rounded-xl bg-cream-300 max-md:mt-10">
           <div className="bg-cream-300 flex justify-center p-4">
             <img loading="lazy" src={imageSrc} alt={altText} className="self-center max-w-full aspect-[1.49] w-[269px]" />
           </div>
-          <div className="mt-6 font-bold text-2xl text-cream-500 text-center">{companyName}</div>
+          <div className="mt-6 font-bold text-2xl text-cream-500 text-center">{approvedBy}</div>
           <div className={`justify-center px-11 py-5 mt-7 font-bold text-center text-cream-300 ${statusBgColor} rounded-b-lg`}>
             {status}
           </div>
+          <div className="mt-6 font-bold text-2xl text-cream-500 text-center">{companyName}</div>
         </div>
       </article>
     );
@@ -68,6 +67,7 @@ function Header() {
     companyName: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     statusBgColor: PropTypes.string.isRequired,
+    approvedBy: PropTypes.string.isRequired
   };
   
   function NewsArticle({ imageSrc, altText, content, title }) {
@@ -80,13 +80,13 @@ function Header() {
         </div>
         <div className="flex flex-col ml-0 h-[20%] w-[72%] max-md:ml-0 max-md:w-full">
           <div className="justify-center self-center px-5 py-8 w-full text-xl tracking-tight mt-8 bg-cream-300 text-cream-500 max-md:px-5 max-md:mt-8 max-md:max-w-full" style={{ letterSpacing: '0.5px'}}>
-            {content}
-            {title}
+            <h1 className="text-2xl font-bold mb-4">{title}</h1>
+            <p>{content}</p>
           </div>
         </div>
       </article>
     );
-  }
+  }  
   
   NewsArticle.propTypes = {
     imageSrc: PropTypes.string.isRequired,
@@ -137,8 +137,9 @@ function Header() {
               supplierTetap={supplierTetap}
               imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
               altText='test'
-              companyName={supplierTetap.approvedBy || "N/A"}
+              approvedBy={supplierTetap.approvedBy || "Belum disetujui"}
               status={supplierTetap.status}
+              companyName={supplierTetap.companyName || "Belum ada nama Company"}
               statusBgColor='bg-cream-500'
             />
           ))}

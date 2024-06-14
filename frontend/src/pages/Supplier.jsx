@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import useGetSupplier from "../hooks/useGetSupplier";
 import useUpdateSupplier from "../hooks/useUpdateSupplier";
+import usePostDST from "../hooks/usePostDST";
 
 function Header() {
   const { logout } = useLogout(); 
@@ -80,6 +81,13 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
   );
 }
 function SupplierModals({data, setShowModal}) {
+  const { registerDST } = usePostDST()
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await registerDST(data.userid)
+    setShowModal(NaN)
+  }
+
   return (
         <>
           <div
@@ -135,7 +143,8 @@ function SupplierModals({data, setShowModal}) {
                   <button
                     className="bg-cream-300 hover:bg-cream-500 text-cream-50 font-bold py-2 px-4 rounded"
                     type="button"
-                    onClick={() => setShowModal(NaN)}
+                    onClick={handleSubmit}
+                    
                   >
                     Submit DST
                   </button>

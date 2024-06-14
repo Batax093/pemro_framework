@@ -48,7 +48,7 @@ export const registerSupplier = async (req, res) => {
 
 export const getSupplier = async (req, res) => {
     try {
-        const filteredSupplier = await Supplier.find().select("email profile isDST _id")
+        const filteredSupplier = await Supplier.find().select("userid email profile isDST _id")
         
         return res.status(201).json({filteredSupplier})
     } catch (error) {
@@ -122,11 +122,16 @@ export const applyforDST = async (req, res) => {
     try {
         const supplier = await Supplier.findOne({ userid: req.user._id })
 
+        if(!supplier){
+            return res.status(401).json({ message: "Supplier not found!"})
+        }
+
         if(supplier.isDST == true){
             return res.status(401).json({ message: "Supplier already applied for DST!"})
         }
 
         const newDST = await DST.create({
+            companyName: supplier.profile.companyName,
             supplierid: supplier._id,
             status: "pending",
             approvedBy: null

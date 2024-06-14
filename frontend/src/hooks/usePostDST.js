@@ -7,7 +7,7 @@ const usePostDST = () => {
     const registerDST = async (userid) => {
         setLoading(true);
         try {
-            const res = await fetch("/api/dst/register", {
+            const res = await fetch("/api/supplier/permanent", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ userid }),
@@ -16,6 +16,7 @@ const usePostDST = () => {
             if (data.error) {
                 throw new Error(data.error);
             }
+            toast.success("DST registered is pending!");
         } catch (error) {
             toast.error(error.message);
         } finally {
