@@ -32,17 +32,20 @@ import toast from "react-hot-toast";
 //     return { loading, dst };
 // }
 
+// const useGetDST = () => {
+//     const [loading, setLoading] = useState(false);
+//     const [dst, setDst] = useState([]);
+
+//     console.log("dst", dst);
+
+//     const dsttest = async () => {
+//         console.log("dsttest")
+//     };
+
+//     dsttest();
 const useGetDST = () => {
-    const [loading, setLoading] = useState(false);
-    const [dst, setDst] = useState([]);
-
-    console.log("dst", dst);
-
-    const dsttest = async () => {
-        console.log("dsttest")
-    };
-
-    dsttest();
+    const [ loading, setLoading ] = useState(false);
+    const [ dst, setdst ] = useState([]);
 
     useEffect(() => {
         const getDST = async () => {
@@ -57,8 +60,13 @@ const useGetDST = () => {
                 if (data.error) {
                     throw new Error(data.error);
                 }
+
                 console.log("Fetched DST data:", data); // Debug log
                 setDst(data.DST);
+
+    
+                setdst(data);
+
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -72,6 +80,4 @@ const useGetDST = () => {
 
     return { loading, dst };
 };
-
-
 export default useGetDST

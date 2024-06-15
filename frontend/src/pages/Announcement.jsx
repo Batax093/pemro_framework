@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import { BiLogOut } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useLogout from "../hooks/useLogout";
 import useGetAnnouncement from '../hooks/useGetAnnouncement';
 import useGetDST from '../hooks/useGetDST';
@@ -11,7 +11,7 @@ import Navbar from '../components/Navbar';
 
 function SupplierStatus({ imageSrc, altText, approvedBy, companyName, status, statusBgColor }) {
   return (
-    <article className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full">
+    <article className="flex flex-col w-[30%] m-6 max-md:ml-0 max-md:w-full">
       <div className="flex flex-col grow pt-11 w-full text-3xl tracking-widest text-center rounded-xl bg-cream-300 max-md:mt-10">
         <div className="bg-cream-300 flex justify-center p-4">
           <img loading="lazy" src={imageSrc} alt={altText} className="self-center max-w-full aspect-[1.49] w-[269px]" />
@@ -37,7 +37,7 @@ SupplierStatus.propTypes = {
 
 function NewsArticle({ imageSrc, altText, content, title }) {
   return (
-    <article className="flex gap-0 max-md:flex-col max-md:gap-0">
+    <article className="flex gap-0 max-md:flex-col max-md:gap-0 mb-4">
       <div className="flex flex-col w-[27%] max-md:ml-0 max-md:w-full">
         <div className="flex flex-col grow justify-center px-9 py-11 w-full rounded-3xl bg-cream-500 max-md:px-5 mb-7">
           <img loading="lazy" src={imageSrc} alt={altText} className="w-full aspect-[1.49]" />
@@ -62,10 +62,19 @@ NewsArticle.propTypes = {
 
 function NewsSection({ setShowCreateModal }) {
   const { announcements } = useGetAnnouncement();
+  const [visibleCount, setVisibleCount] = useState(3);
 
-
+  useEffect(() => {
+    if (announcements && announcements.announcement) {
+      setVisibleCount(3); // Reset visible count when announcements change
+    }
+  }, [announcements]);
   const openModal = () => {
     setShowCreateModal(true);
+  };
+
+  const loadMore = () => {
+    setVisibleCount((prevCount) => prevCount + 3);
   };
 
   return (
@@ -79,8 +88,8 @@ function NewsSection({ setShowCreateModal }) {
       <nav className='flex justify-center pt-10'>
         <button onClick={openModal} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">Post Announcement</button>
       </nav>
-      <main className="mt-10 w-full max-w-[1191px] max-md:max-w-full">
-        {Array.isArray(announcements.announcement) && announcements.announcement.map((announcement, index) => (
+      <main className="mt-10 w-full max-w-[1191px] max-md:max-w-full max-h-[500px] overflow-y-auto">
+        {Array.isArray(announcements?.announcement) && announcements.announcement.slice(0, visibleCount).map((announcement, index) => (
           <NewsArticle
             key={index}
             index={index}
@@ -91,6 +100,11 @@ function NewsSection({ setShowCreateModal }) {
             title={announcement.title || "N/A"}
           />
         ))}
+        {announcements && Array.isArray(announcements.announcement) && visibleCount < announcements.announcement.length && (
+          <div className="flex justify-center mt-6">
+            <button onClick={loadMore} className="px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5">Next</button>
+          </div>
+        )}
       </main>
     </>
   );
@@ -100,7 +114,7 @@ function StatusSection() {
   const { dst } = useGetDST();
 
   return (
-    <div className="flex justify-center mt-20 w-full max-md:mt-10">
+    <div className="flex justify-center mt-20 w-full max-md:mt-10 overflow-x-auto">
       <div className="flex justify-between w-full max-w-[90%]">
         {Array.isArray(dst.DST) && dst.DST.map((supplierTetap, index) => (
           <SupplierStatus
@@ -244,4 +258,3 @@ function Announcement() {
 }
 
 export default Announcement;
-
