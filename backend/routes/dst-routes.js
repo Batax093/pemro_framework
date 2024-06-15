@@ -8,6 +8,6 @@ import { approveDST, getDST } from "../controllers/dst-controllers.js"
 const router = express.Router()
 
 router.get('/list', protectRoute, getDST)
-router.put('/approve/:receiverid', protectRoute, protectRole, approveDST)
+router.post('/approve/:receiverid', protectRoute, protectRole, approveDST)
 
 export default router

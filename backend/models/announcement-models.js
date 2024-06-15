@@ -1,6 +1,11 @@
-import mongoose from "mongoose";
+import mongoose, { Schema} from "mongoose";
 
 const announcementSchema = new mongoose.Schema({
+    supplierid: {
+        type: Schema.Types.ObjectId,
+        ref: "supplierid",
+        required: false
+    },
     title: {
         type: String,
         required: true

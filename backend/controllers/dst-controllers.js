@@ -41,7 +41,7 @@ export const approveDST = async (req, res) => {
 
 export const getDST = async (req, res) => {
     try {
-        const DST = await DSTmodels.find().select("supplierid status approvedBy -_id")
+        const DST = await DSTmodels.find().select("companyName supplierid status approvedBy -_id")
 
         return res.status(201).json({ DST })
     } catch (error) {

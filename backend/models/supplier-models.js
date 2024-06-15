@@ -27,7 +27,12 @@ const supplierSchema = new mongoose.Schema({
             type: String, 
             required: true 
         },
+        comodity: { 
+            type: String, 
+            required: true 
+        },
     },
+    // goods: [{ type: Schema.Types.ObjectId, ref: "Goods" }],
     isDST: { 
         type: Boolean,
         required: true, 

@@ -14,6 +14,11 @@ const transporter = nodemailer.createTransport({
 
 // Function to send email
 export const sendEmail = async (to, subject, text, html) => {
+    if (!to) {
+        console.error('No recipient defined');
+        return;
+    }
+    
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to,
