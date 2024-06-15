@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import usePostSupplier from "../hooks/usePostSupplier.js";
 
 function Header() {
-  const { logout } = useLogout(); 
+  const { logout } = useLogout();
 
   const handleLogout = () => {
     toast.promise(
@@ -54,18 +54,18 @@ function Header() {
       alt: 'Sixth slide',
     }
   ];
-  
-    const [activeIndex, setActiveIndex] = useState(0);
-  
-    const prevSlide = () => {
-      const prevIndex = (activeIndex === 0 ? images.length - 1 : activeIndex - 1);
-      setActiveIndex(prevIndex);
-    };
-  
-    const nextSlide = () => {
-      const nextIndex = (activeIndex + 1) % images.length;
-      setActiveIndex(nextIndex);
-    };
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const prevSlide = () => {
+    const prevIndex = (activeIndex === 0 ? images.length - 1 : activeIndex - 1);
+    setActiveIndex(prevIndex);
+  };
+
+  const nextSlide = () => {
+    const nextIndex = (activeIndex + 1) % images.length;
+    setActiveIndex(nextIndex);
+  };
 
   return (
     <header className="flex flex-col items-center pt-3.5 bg-white">
@@ -86,6 +86,7 @@ function Header() {
             <Link to={"/"} className="nav-link hover:text-cream-500">HOME</Link>
             <Link to="/supplier" className="nav-link hover:text-cream-500">SUPPLIER</Link>
             <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
+            <Link to="/administrator" className="nav-link hover:text-cream-500">ADMINISTRATOR</Link>
             <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
           </nav>
         </div>
@@ -119,34 +120,34 @@ function Header() {
 
 function CatalogueSection() {
   const coffeeTypes = [
-    { 
-      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", 
-      title: "Arabika", 
+    {
+      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&",
+      title: "Arabika",
       suppliers: ["UD Kelapa Jaya", "PT. Surya Agro Mandiri", "PT. Hinoka Alsindo", "CV. Freysea Indo Citra", "CV. Sundanika Indonesia"]
     },
-    { 
-      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", 
-      title: "Robusta", 
+    {
+      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&",
+      title: "Robusta",
       suppliers: ["UD Kelapa Jaya", "PT. Surya Agro Mandiri", "CV. Freysea Indo Citra", "CV. Sundanika Indonesia", "Star Laboratories"]
     },
-    { 
-      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", 
-      title: "Liberica", 
+    {
+      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&",
+      title: "Liberica",
       suppliers: ["UD Kelapa Jaya", "PT. Hinoka Alsindo", "CV. Freysea Indo Citra", "CV. Sundanika Indonesia", "Star Laboratories"]
     },
-    { 
-      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", 
-      title: "Excelsa", 
+    {
+      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&",
+      title: "Excelsa",
       suppliers: ["PT. Surya Agro Mandiri", "PT. Hinoka Alsindo", "PT. Lukman Jaya Haramain"]
     },
-    { 
-      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", 
-      title: "Gayo", 
+    {
+      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&",
+      title: "Gayo",
       suppliers: ["PT. Surya Agro Mandiri", "CV. Freysea Indo Citra", "CV. Sundanika Indonesia"]
     },
-    { 
-      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", 
-      title: "Kolombia", 
+    {
+      id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&",
+      title: "Kolombia",
       suppliers: ["PT. Surya Agro Mandiri", "PT. Hinoka Alsindo", "CV. Freysea Indo Citra", "PT. Lukman Jaya Haramain"]
     },
   ];
@@ -262,10 +263,10 @@ function OutletsSection() {
 
 const JoinSection = () => {
   const { loading, registerSupplier } = usePostSupplier();
-  const [ companyName, setCompanyName ] = useState('');
-  const [ phone, setPhone ] = useState('');
-  const [ comodity, setComodity ] = useState('');
-  const [ address, setAddress ] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [comodity, setComodity] = useState('');
+  const [address, setAddress] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -293,7 +294,7 @@ const JoinSection = () => {
               <br />
               <div className="my-auto text-black text-4xl">
                 <span>KOPI<span className="text-cream-500">IN</span></span>
-            </div>
+              </div>
             </span>
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col justify-items-center mt-3 space-y-2">
@@ -319,8 +320,8 @@ const JoinSection = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
-            <input 
-              type="text" 
+            <input
+              type="text"
               id="comodity"
               className="px-20 py-6 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5]"
               placeholder="Comodity"
@@ -355,22 +356,22 @@ const JoinSection = () => {
 
 function Info({ children }) {
   return (
-      <main className="px-5 mt-14 w-full max-w-[1251px] mx-auto max-md:mt-10 max-md:max-w-full">
-          <h1 className="self-center mt-20 pb-6 text-4xl font-bold tracking-widest text-center text-black max-md:mt-10 max-md:max-w-full">
-              KOPI<span className='text-cream-500'>IN</span>
-          </h1>
-          <div>
-          <div className="flex flex-col items-center p-6 font-black bg-cream-500 text-lg lg:text-base text-center text-black max-md:pr-5" style={{ letterSpacing: '1px', lineHeight: '2' }}>
-              <p>
-                  <span className="text-black p-2 rounded-lg">KOPI</span><span className='text-cream-100'>IN adalah destinasi utama bagi para pencinta kopi yang menginginkan pengalaman kopi yang otentik dan berkualitas. Sebagai toko kopi yang berdedikasi, kami menawarkan beragam biji kopi pilihan yang kami ambil langsung dari supplier-supplier ternama dan terpercaya. Dengan kehadiran di sembilan cabang yang tersebar luas, kami tidak hanya menawarkan kopi, tetapi juga menghadirkan sebuah komunitas tempat para pecinta kopi dapat berkumpul, berbagi cerita, dan mengeksplorasi ragam cita rasa kopi. Dengan fokus kami yang kuat pada kualitas, kami berkomitmen untuk memberikan pengalaman kopi yang tak terlupakan kepada setiap pelanggan kami.</span>
-              </p>
-          </div>
+    <main className="px-5 mt-14 w-full max-w-[1251px] mx-auto max-md:mt-10 max-md:max-w-full">
+      <h1 className="self-center mt-20 pb-6 text-4xl font-bold tracking-widest text-center text-black max-md:mt-10 max-md:max-w-full">
+        KOPI<span className='text-cream-500'>IN</span>
+      </h1>
+      <div>
+        <div className="flex flex-col items-center p-6 font-black bg-cream-500 text-lg lg:text-base text-center text-black max-md:pr-5" style={{ letterSpacing: '1px', lineHeight: '2' }}>
+          <p>
+            <span className="text-black p-2 rounded-lg">KOPI</span><span className='text-cream-100'>IN adalah destinasi utama bagi para pencinta kopi yang menginginkan pengalaman kopi yang otentik dan berkualitas. Sebagai toko kopi yang berdedikasi, kami menawarkan beragam biji kopi pilihan yang kami ambil langsung dari supplier-supplier ternama dan terpercaya. Dengan kehadiran di sembilan cabang yang tersebar luas, kami tidak hanya menawarkan kopi, tetapi juga menghadirkan sebuah komunitas tempat para pecinta kopi dapat berkumpul, berbagi cerita, dan mengeksplorasi ragam cita rasa kopi. Dengan fokus kami yang kuat pada kualitas, kami berkomitmen untuk memberikan pengalaman kopi yang tak terlupakan kepada setiap pelanggan kami.</span>
+          </p>
+        </div>
 
-          </div>
-          <h1 className="self-center mt-10 text-lg font-bold tracking-widest text-center text-black max-md:mt-10 max-md:max-w-full">
-              KOPI<span className="text-cream-500 p-1 rounded">IN</span>: Temukan Aroma <span className="text-cream-500 p-1 rounded">Sejati</span> dalam Setiap <span className="text-cream-500 p-1 rounded">Tetes</span>
-          </h1>
-      </main>
+      </div>
+      <h1 className="self-center mt-10 text-lg font-bold tracking-widest text-center text-black max-md:mt-10 max-md:max-w-full">
+        KOPI<span className="text-cream-500 p-1 rounded">IN</span>: Temukan Aroma <span className="text-cream-500 p-1 rounded">Sejati</span> dalam Setiap <span className="text-cream-500 p-1 rounded">Tetes</span>
+      </h1>
+    </main>
   );
 }
 
@@ -401,8 +402,8 @@ function Home() {
     <>
       <Header />
       <CatalogueSection />
-      <OutletsSection/>
-      <JoinSection/>
+      <OutletsSection />
+      <JoinSection />
       <Info />
       <Footer />
     </>
