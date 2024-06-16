@@ -174,9 +174,9 @@ function CatalogueSection() {
       <p className="self-center mt-3.5 text-2xl font-light tracking-wide text-center text-cream-300 max-md:max-w-full">
         Biji Kopi Pilihan Untuk Penikmat Kopi Sejati
       </p>
-      <div className="flex flex-wrap mt-14 justify-center grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 mt-14">
         {coffeeTypes.map((coffee) => (
-          <section key={coffee.id} className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
+          <section key={coffee.id} className="flex flex-col">
             <div className="flex flex-col grow px-12 pt-2 pb-5 w-full text-2xl font-extrabold tracking-tight text-center whitespace-nowrap rounded-md shadow-sm bg-cream-500 text-cream-300 max-md:px-5 max-md:mt-10">
               <img
                 loading="lazy"
@@ -206,6 +206,7 @@ function CatalogueSection() {
     </main>
   );
 }
+
 
 
 function OutletsSection() {
