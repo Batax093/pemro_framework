@@ -8,9 +8,9 @@ const useApproveDST = () => {
         setLoading(true);
         try {
             const res = await fetch(`/api/dst/approve/${userid}`, {
-                method: "POST",
+                method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ updateData }),
+                body: JSON.stringify({updateData}),
             });
             const data = await res.json();
             if (data.error) {
