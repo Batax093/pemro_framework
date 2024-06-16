@@ -5,7 +5,7 @@ import { sendEmail } from "../utils/nodemailer.js"
 
 export const registerSupplier = async (req, res) => {
     try {
-        const { companyName, phone, address } = req.body
+        const { companyName, phone, address, comodity } = req.body
         const userid = req.user._id
 
         if(!userid){
@@ -32,7 +32,8 @@ export const registerSupplier = async (req, res) => {
                 supplierName: existingUser.fullName,
                 companyName,
                 phone,
-                address
+                address,
+                comodity
             }
         })
 
@@ -47,7 +48,7 @@ export const registerSupplier = async (req, res) => {
 
 export const getSupplier = async (req, res) => {
     try {
-        const filteredSupplier = await Supplier.find().select("email profile isDST -_id")
+        const filteredSupplier = await Supplier.find().select("userid email profile isDST _id")
         
         return res.status(201).json({filteredSupplier})
     } catch (error) {
@@ -59,7 +60,7 @@ export const getSupplier = async (req, res) => {
 export const updateSupplier = async (req, res) => {
     try {
         const { receiverid } = req.params;
-        const { companyName, phone, address } = req.body;
+        const { companyName, phone, address, comodity } = req.body;
 
         if (!receiverid) {
             return res.status(401).json({ error: "Receiver ID is required!" });
@@ -67,22 +68,27 @@ export const updateSupplier = async (req, res) => {
 
         const existingSupplier = await Supplier.findById(receiverid);
 
-        const { supplierName } = await User.findOne({ _id: existingSupplier.userid }).select("fullName -_id");
-
         if (!existingSupplier) {
             return res.status(401).json({ error: "Supplier not found!" });
         }
+
+        const { supplierName } = await User.findOne({ _id: existingSupplier.userid }).select("fullName -_id");
 
         const updateFields = {};
         if (companyName) updateFields['profile.companyName'] = companyName;
         if (phone) updateFields['profile.phone'] = phone;
         if (address) updateFields['profile.address'] = address;
+        if (comodity) updateFields['profile.comodity'] = comodity;
 
         const updatedSupplier = await Supplier.findOneAndUpdate(
             { _id: receiverid },
             { $set: updateFields },
             { new: true }
         );
+
+        if (!updatedSupplier) {
+            return res.status(401).json({ error: "Supplier not found!" });
+        }
 
         const emailSubject = 'Announcement: Supplier Profile Updated'
         const emailText = 'Your supplier profile has been successfully updated.'
@@ -95,6 +101,7 @@ export const updateSupplier = async (req, res) => {
                 ${companyName ? `<li>Company Name: ${companyName}</li>` : ''}
                 ${phone ? `<li>Phone: ${phone}</li>` : ''}
                 ${address ? `<li>Address: ${address}</li>` : ''}
+                ${comodity ? `<li>Comodity: ${comodity}</li>` : ''}
             </ul>
             <p>Thank you,</p>
             <p>Kopi Kreatif</p>
@@ -115,11 +122,16 @@ export const applyforDST = async (req, res) => {
     try {
         const supplier = await Supplier.findOne({ userid: req.user._id })
 
+        if(!supplier){
+            return res.status(401).json({ message: "Supplier not found!"})
+        }
+
         if(supplier.isDST == true){
             return res.status(401).json({ message: "Supplier already applied for DST!"})
         }
 
         const newDST = await DST.create({
+            companyName: supplier.profile.companyName,
             supplierid: supplier._id,
             status: "pending",
             approvedBy: null
@@ -128,6 +140,27 @@ export const applyforDST = async (req, res) => {
         return res.status(201).json({ newDST })
     } catch (error) {
         console.log("Error while applying for DST: ", error.message)
+        return res.status(500).json({ error: "Internal server error" })
+    }
+}
+
+export const detailSupplier = async (req, res) => {
+    try {
+        const { receiverid } = req.params;
+
+        if (!receiverid) {
+            return res.status(401).json({ error: "Receiver ID is required!" }); 
+        }
+
+        const selectedSupplier = await Supplier.findById(receiverid).select("profile isDST");
+
+        if (!selectedSupplier) {
+            return res.status(401).json({ error: "Supplier not found!" });
+        }
+
+        return res.status(201).json({ selectedSupplier });
+    } catch (error) {
+        console.log("Error while getting supplier: ", error.message)
         return res.status(500).json({ error: "Internal server error" })
     }
 }

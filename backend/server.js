@@ -25,6 +25,11 @@ app.use("/api/supplier", supplierRoutes)
 app.use("/api/announcement", announcementRoutes)
 app.use("/api/dst", dstRoutes)
 
+app.use((err, req, res, next) => {
+    console.error("Unhandled Error:", err);
+    res.status(500).json({ error: "Something went wrong!" });
+});
+
 app.listen(PORT, () => {
     connectToMongoDB();
     console.log(`Server is running on port ${PORT}`)

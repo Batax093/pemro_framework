@@ -10,6 +10,7 @@ export const signup = async (req, res) => {
             return res.status(401).json({ error: "Passwords don't match!"})
         }
 
+        
         const user = await User.findOne({ email })
 
         if(user){
@@ -26,8 +27,10 @@ export const signup = async (req, res) => {
             gender,
         })
 
+        console.log("newUser", newUser);
+
         if(newUser){
-            generateToken(newUser._id, res)
+            generateToken(newUser._id, newUser.role, res)
             await newUser.save()
 
             res.status(201).json({
@@ -56,7 +59,7 @@ export const login = async (req, res) => {
             return res.status(401).json({ error: "Invalid credentials!"})
         }
 
-        generateToken(user._id, res)
+        generateToken(user._id, user.role, res)
 
         res.status(201).json({
             _id: user._id,

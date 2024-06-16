@@ -15,6 +15,10 @@ export const approveDST = async (req, res) => {
             return res.status(404).json({ error: "Supplier not found!" });
         }
 
+        if (!existingSupplier.profile.comodity || !existingSupplier.email) {
+            return res.status(400).json({ error: "Supplier profile is incomplete: comodity and email are required." });
+        }
+
         existingSupplier.isDST = true;
         await existingSupplier.save();
 
@@ -41,7 +45,7 @@ export const approveDST = async (req, res) => {
 
 export const getDST = async (req, res) => {
     try {
-        const DST = await DSTmodels.find().select("supplierid status approvedBy -_id")
+        const DST = await DSTmodels.find().select("companyName supplierid status approvedBy -_id")
 
         return res.status(201).json({ DST })
     } catch (error) {
