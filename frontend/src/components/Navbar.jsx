@@ -28,8 +28,11 @@ function Navbar() {
             />
             <div className="my-auto text-black">
               <span>KOPI<span className="text-cream-500">IN</span></span>
+              <span className="text-cream-500 p-5">Hello, {authUser.fullName}</span>
             </div>
+            
           </div>
+          
           <nav className="flex gap-5 justify-between my-auto text-black max-md:flex-wrap max-md:max-w-full">
             <Link to="/" className="nav-link hover:text-cream-500">HOME</Link>
             <Link to={"/supplier"} className="nav-link hover:text-cream-500">SUPPLIER</Link>

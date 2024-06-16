@@ -4,10 +4,12 @@ import useGetSupplier from "../hooks/useGetSupplier";
 import useUpdateSupplier from "../hooks/useUpdateSupplier";
 import usePostDST from "../hooks/usePostDST";
 import Navbar from "../components/Navbar";
+import { useAuthContext } from "../context/authContext";
 
 
 function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
   const { profile } = data
+  const { authUser } = useAuthContext();``
 
   const handleView = () => {
     setShowModal(index);
@@ -33,7 +35,7 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
         </div>
         <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-cream-300">
           <button onClick={handleView} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">View</button>
-          <button onClick={handleUpdate} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>
+          { authUser && <button onClick={handleUpdate} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>}
         </nav>
       </section>
     </>
