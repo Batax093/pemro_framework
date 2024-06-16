@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
         <Route path='/login' element={authUser ? <Navigate to='/' /> : <Login />} />
-        <Route path='/signup' element={authUser ? <Navigate to='/' /> : <Signup />} />
+        <Route path='/signup' element={authUser ? <Navigate to='/login' /> : <Signup />} />
         <Route path='/announcement' element={authUser ? <Announcement /> : <Navigate to='/login' />} />
         <Route path='/supplier' element={authUser ? <Supplier /> : <Navigate to='/login' />} />
         <Route path='/detail' element={authUser ? <DetailSupplier /> : <Navigate to='/login' />} />
