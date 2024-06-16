@@ -54,6 +54,15 @@ function ApproveDSTCard({ data }) {
 function ApproveDST() {
   const { dst } = useGetDST();
 
+    if (!dst) {
+        return <div>Loading...</div>;
+    }
+
+    if (!dst.DST || dst.DST.length === 0) {
+        return <p className="text-center text-gray-500">No pending DST applications available.</p>;
+    }
+
+    const filteredDST = dst.DST.filter(DST => DST.status !== 'approved');
   return (
       <>
       <Navbar />
@@ -63,17 +72,13 @@ function ApproveDST() {
                   <p className="mt-5 text-2xl font-light text-cream-300">Data Apply DST yang telah daftar</p>
               </header>
               <main className="mt-24 w-full max-md:mt-10">
-                  {Array.isArray(dst.DST) && dst.DST.length > 0 ? (
-                      dst.DST.map((DST, index) => (
-                          <ApproveDSTCard
-                              key={index}
-                              data={DST}
-                              index={index}
-                          />
-                      ))
-                  ) : (
-                      <p className="text-center text-gray-500">No pending DST applications available.</p>
-                  )}
+              {filteredDST.map((DST, index) => (
+                <ApproveDSTCard
+                    key={index}
+                    data={DST}
+                    index={index}
+                />
+                ))}
               </main>
               <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
                   <div className="flex gap-0 self-start text-xs">
