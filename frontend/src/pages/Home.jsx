@@ -6,9 +6,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from "react-hot-toast";
 import usePostSupplier from "../hooks/usePostSupplier.js";
+import { useAuthContext } from '../context/authContext.jsx';
 
 function Header() {
   const { logout } = useLogout(); 
+  const { authUser }  = useAuthContext();
 
   const handleLogout = () => {
     toast.promise(
@@ -86,6 +88,7 @@ function Header() {
             <Link to={"/"} className="nav-link hover:text-cream-500">HOME</Link>
             <Link to="/supplier" className="nav-link hover:text-cream-500">SUPPLIER</Link>
             <Link to="/announcement" className="nav-link hover:text-cream-500">ANNOUNCEMENT</Link>
+            {authUser.role !== "supplier" && <Link to="/approve" className="nav-link hover:text-cream-500">APPROVE DST</Link>}
             <BiLogOut className="text-3xl cursor-pointer nav-link hover:text-cream-500" onClick={handleLogout} />
           </nav>
         </div>
@@ -118,6 +121,7 @@ function Header() {
 }
 
 function CatalogueSection() {
+  const coffee = "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&"
   const coffeeTypes = [
     { 
       id: "https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=b1d7a673afae4361a48ecfd33debe811&", 
@@ -204,6 +208,7 @@ function CatalogueSection() {
 
 
 function OutletsSection() {
+  const outlet = "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&"
   const outlets = [
     { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Rungkut", address: "Jl. Rungkut Mapan Blok CA No. 5, Rungkut, Surabaya", imagePopup: "https://cdn.builder.io/api/v1/image/assets/TEMP/d7f3b763fcb1abe963107caebd110e1704ae6247feca195806b2107b915d9533?apiKey=6aa320d50fc04f13ae8b58abb91612c7&" },
     { id: "https://cdn.builder.io/api/v1/image/assets/TEMP/0402e2ab79ec857e8926195d4129d62b0d266be17255200f6211298cfea9b91b?apiKey=b1d7a673afae4361a48ecfd33debe811&", name: "Kopiin Cab. Mulyerejo", address: "Jl. Mulyerejo Harapan Blok F No. 99, Mulyerejo, Surabaya", imagePopup: "https://cdn.builder.io/api/v1/image/assets/TEMP/730e203b61bd1db9e5051e1028b91e208ec1ea42052922b799e78d3642676f08?apiKey=6aa320d50fc04f13ae8b58abb91612c7&" },
