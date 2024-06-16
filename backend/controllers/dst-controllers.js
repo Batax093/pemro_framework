@@ -15,6 +15,10 @@ export const approveDST = async (req, res) => {
             return res.status(404).json({ error: "Supplier not found!" });
         }
 
+        if (!existingSupplier.profile.comodity || !existingSupplier.email) {
+            return res.status(400).json({ error: "Supplier profile is incomplete: comodity and email are required." });
+        }
+
         existingSupplier.isDST = true;
         await existingSupplier.save();
 
