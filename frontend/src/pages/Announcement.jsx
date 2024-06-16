@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
-import { BiLogOut } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import useLogout from "../hooks/useLogout";
 import useGetAnnouncement from '../hooks/useGetAnnouncement';
 import useGetDST from '../hooks/useGetDST';
 import usePostAnnouncement from '../hooks/usePostAnnouncement';
 import Navbar from '../components/Navbar';
+import { useAuthContext } from '../context/authContext';
 
 function SupplierStatus({ imageSrc, altText, approvedBy, companyName, status, statusBgColor }) {
   return (
@@ -63,10 +61,11 @@ NewsArticle.propTypes = {
 function NewsSection({ setShowCreateModal }) {
   const { announcements } = useGetAnnouncement();
   const [visibleCount, setVisibleCount] = useState(3);
+  const { authUser } = useAuthContext();
 
   useEffect(() => {
     if (announcements && announcements.announcement) {
-      setVisibleCount(3); // Reset visible count when announcements change
+      setVisibleCount(3);
     }
   }, [announcements]);
   const openModal = () => {
@@ -86,7 +85,7 @@ function NewsSection({ setShowCreateModal }) {
         Kumpulan Berita Terbaru Seputar Dunia Kopi
       </p>
       <nav className='flex justify-center pt-10'>
-        <button onClick={openModal} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">Post Announcement</button>
+        { authUser.role !== "supplier" && <button onClick={openModal} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">Post Announcement</button>}
       </nav>
       <main className="mt-10 w-full max-w-[1191px] max-md:max-w-full max-h-[500px] overflow-y-auto">
         {Array.isArray(announcements?.announcement) && announcements.announcement.slice(0, visibleCount).map((announcement, index) => (
@@ -243,15 +242,14 @@ function Footer() {
 
 function Announcement() {
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const { authUser } = useAuthContext();
 
   return (
     <>
       <Navbar />
       <NewsSection setShowCreateModal={setShowCreateModal} />
       <StatusSection />
-      {showCreateModal && (
-        <CreateAnnouncementModal setShowCreateModal={setShowCreateModal} />
-      )}
+      { showCreateModal && ( authUser.role === "administrator" || authUser.role === "manajer" ) && <CreateAnnouncementModal setShowCreateModal={setShowCreateModal} /> }
       <Footer />
     </>
   );

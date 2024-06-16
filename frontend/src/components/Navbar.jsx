@@ -1,15 +1,12 @@
-import React from 'react'
 import { useAuthContext } from '../context/authContext';
 import useLogout from "../hooks/useLogout";
 import { BiLogOut } from 'react-icons/bi'
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { BiUser } from 'react-icons/bi';
+
 
 function Navbar() {
   const { logout } = useLogout(); 
   const { authUser }  = useAuthContext();
-  console.log("authUser", authUser.role);
 
   const handleLogout = () => {
     const confirmed = window.confirm("Apakah Anda yakin ingin logout?");

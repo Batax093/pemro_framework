@@ -1,7 +1,4 @@
 /* eslint-disable react/prop-types */
-import useLogout from "../hooks/useLogout";
-import { BiLogOut } from "react-icons/bi";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import useGetSupplier from "../hooks/useGetSupplier";
 import useUpdateSupplier from "../hooks/useUpdateSupplier";

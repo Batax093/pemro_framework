@@ -1,22 +1,18 @@
 /* eslint-disable react/prop-types */
-import useLogout from "../hooks/useLogout";
-import { BiLogOut } from "react-icons/bi";
-import { Link } from "react-router-dom";
-import { useState } from "react";
 import useGetDST from "../hooks/useGetDST";
 import useApproveDST from "../hooks/useApproveDST";
-import { useAuthContext } from "../context/authContext";
 import Navbar from "../components/Navbar";
+import toast from "react-hot-toast";
 
 function ApproveDSTCard({ data }) {
-  const { profile } = data; // Pastikan `profile` ada dan valid
+  const { profile } = data;
   const { loading, approveDST } = useApproveDST();
 
   const handleApprove = async () => {
       const confirmed = window.confirm(`Are you sure you want to approve DST for ${data.companyName}?`);
       if (confirmed) {
           try {
-              await approveDST(data.supplierid);
+              await approveDST(data.supplierid, data);
               toast.success(`DST for ${data.companyName} approved successfully!`);
           } catch (error) {
               toast.error(`Failed to approve DST: ${error.message}`);
@@ -56,11 +52,7 @@ function ApproveDSTCard({ data }) {
 }
 
 function ApproveDST() {
-  const { loading, dst } = useGetDST();
-  console.log(loading);
-  console.log(dst);
-  const pendingDsts = dst && dst.length > 0 && dst.filter(item => item.status === "pending");
-  console.log("Pending DSTs:", pendingDsts); // Debug log
+  const { dst } = useGetDST();
 
   return (
       <>
@@ -71,8 +63,8 @@ function ApproveDST() {
                   <p className="mt-5 text-2xl font-light text-cream-300">Data Apply DST yang telah daftar</p>
               </header>
               <main className="mt-24 w-full max-md:mt-10">
-                  {pendingDsts.length > 0 ? (
-                      pendingDsts.map((DST, index) => (
+                  {Array.isArray(dst.DST) && dst.DST.length > 0 ? (
+                      dst.DST.map((DST, index) => (
                           <ApproveDSTCard
                               key={index}
                               data={DST}

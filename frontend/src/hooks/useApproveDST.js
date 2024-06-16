@@ -4,18 +4,19 @@ import toast from "react-hot-toast";
 const useApproveDST = () => {
     const [ loading, setLoading ] = useState(false);
 
-    const approveDST = async (userid) => {
+    const approveDST = async (userid, updateData) => {
         setLoading(true);
         try {
-            const res = await fetch("/api/dst/approve", {
+            const res = await fetch(`/api/dst/approve/${userid}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userid }),
+                body: JSON.stringify({ updateData }),
             });
             const data = await res.json();
             if (data.error) {
                 throw new Error(data.error);
             }
+            return data;
         } catch (error) {
             toast.error(error.message);
         } finally {
