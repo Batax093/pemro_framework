@@ -9,7 +9,7 @@ import { useAuthContext } from "../context/authContext";
 
 function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
   const { profile } = data
-  const { authUser } = useAuthContext();``
+  const { authUser } = useAuthContext();
 
   const handleView = () => {
     setShowModal(index);
@@ -260,15 +260,21 @@ function Supplier() {
           <p className="mt-5 text-2xl font-light text-cream-300">Data supplier yang telah daftar</p>
         </header>
         <main className="mt-24 w-full max-md:mt-10">
-          {Array.isArray(suppliers.filteredSupplier) && suppliers.filteredSupplier.map((supplier, index) => (
-            <SupplierCard
-              key={index}
-              data={supplier}
-              index={index}
-              setShowModal={setShowModal}
-              setShowUpdate={setShowUpdate}
-            />
-          ))}
+          {Array.isArray(suppliers.filteredSupplier) && suppliers.filteredSupplier.length > 0 ? (
+            suppliers.filteredSupplier.map((supplier, index) => (
+              <SupplierCard
+                key={index}
+                data={supplier}
+                index={index}
+                setShowModal={setShowModal}
+                setShowUpdate={setShowUpdate}
+              />
+            ))
+          ) : (
+            <div className="text-center text-2xl font-light text-cream-300">
+              No suppliers available at the moment.
+            </div>
+          )}
         </main>
         <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
           <div className="flex gap-0 self-start text-xs">

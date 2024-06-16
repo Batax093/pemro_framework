@@ -68,6 +68,7 @@ function NewsSection({ setShowCreateModal }) {
       setVisibleCount(3);
     }
   }, [announcements]);
+
   const openModal = () => {
     setShowCreateModal(true);
   };
@@ -88,17 +89,23 @@ function NewsSection({ setShowCreateModal }) {
         { authUser.role !== "supplier" && <button onClick={openModal} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">Post Announcement</button>}
       </nav>
       <main className="mt-10 w-full max-w-[1191px] max-md:max-w-full max-h-[500px] overflow-y-auto">
-        {Array.isArray(announcements?.announcement) && announcements.announcement.slice(0, visibleCount).map((announcement, index) => (
-          <NewsArticle
-            key={index}
-            index={index}
-            announcement={announcement}
-            imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
-            altText={announcement.title || "N/A"}
-            content={announcement.content || "N/A"}
-            title={announcement.title || "N/A"}
-          />
-        ))}
+        {Array.isArray(announcements?.announcement) && announcements.announcement.length > 0 ? (
+          announcements.announcement.slice(0, visibleCount).map((announcement, index) => (
+            <NewsArticle
+              key={index}
+              index={index}
+              announcement={announcement}
+              imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
+              altText={announcement.title || "N/A"}
+              content={announcement.content || "N/A"}
+              title={announcement.title || "N/A"}
+            />
+          ))
+        ) : (
+          <div className="text-center text-2xl font-light text-cream-300">
+            No announcements available at the moment.
+          </div>
+        )}
         {announcements && Array.isArray(announcements.announcement) && visibleCount < announcements.announcement.length && (
           <div className="flex justify-center mt-6">
             <button onClick={loadMore} className="px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5">Next</button>
@@ -108,6 +115,7 @@ function NewsSection({ setShowCreateModal }) {
     </>
   );
 }
+
 
 function StatusSection() {
   const { dst } = useGetDST();
