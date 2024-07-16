@@ -31,10 +31,10 @@ app.use("/api/supplier", supplierRoutes)
 app.use("/api/announcement", announcementRoutes)
 app.use("/api/dst", dstRoutes)
 
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
 app.use((err, req, res, next) => {
