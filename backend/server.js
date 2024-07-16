@@ -1,7 +1,10 @@
 import express from "express";
-import dotenv  from "dotenv";
+import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
+import { fileURLToPath } from 'url';
+
 import connectToMongoDB from "../backend/config/connectToMongo.js";
 
 import authRoutes from "../backend/routes/auth-routes.js"
@@ -15,6 +18,9 @@ dotenv.config()
 
 const PORT = process.env.PORT || 5000;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors())
@@ -24,6 +30,12 @@ app.use("/api/auth", authRoutes)
 app.use("/api/supplier", supplierRoutes)
 app.use("/api/announcement", announcementRoutes)
 app.use("/api/dst", dstRoutes)
+
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
 
 app.use((err, req, res, next) => {
     console.error("Unhandled Error:", err);
