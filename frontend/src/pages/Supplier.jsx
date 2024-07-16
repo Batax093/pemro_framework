@@ -5,6 +5,7 @@ import useUpdateSupplier from "../hooks/useUpdateSupplier";
 import usePostDST from "../hooks/usePostDST";
 import Navbar from "../components/Navbar";
 import { useAuthContext } from "../context/authContext";
+import Footer from "../components/Footer";
 
 
 function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
@@ -21,102 +22,105 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
 
   return (
     <>
-      <section className="flex gap-5 mb-10 p-8 bg-cream-50 rounded-xl w-[1236px] max-md:flex-wrap max-md:pr-5">
-        <div className="flex-auto max-md:max-w-full">
-          <figure className="flex gap-5 max-md:flex-col max-md:gap-0">
-            <div className="flex flex-col w-[45%] max-md:w-full">
-              <img loading="lazy" src='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&' className="w-full aspect-[1.56] max-md:mt-4" alt={`${profile.company} logo`} />
+       <section className="text-gray-600 body-font">
+        <div className="container px-5 py-20 mx-auto">
+          <div className="flex items-center lg:w-3/5 mx-auto border-b pb-10 mb-5 border-gray-200 sm:flex-row flex-col">
+            <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-cream-100 text-cream-500 flex-shrink-0">
+            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="sm:w-16 sm:h-16 w-10 h-10" viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
             </div>
-            <figcaption className="flex flex-col ml-5 w-[55%] text-center text-cream-500 max-md:w-full">
-              <h2 className="text-4xl mt-7 tracking-widest font-bold">{profile.companyName}</h2>
-              <p className="text-3xl mt-1.5 tracking-widest">{profile.email}</p>
-            </figcaption>
-          </figure>
+            <div className="flex-grow sm:text-left text-center mt-6 sm:mt-0">
+              <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                {profile.companyName}
+              </h2>
+              <p className="leading-relaxed text-base">
+                {profile.email}
+              </p>
+              <button onClick={handleView} className="mt-3 text-xl text-cream-500 inline-flex items-center">
+                View
+                <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+            { authUser && <button onClick={handleUpdate} className="flex mx-auto mt-25 text-white bg-cream-500 border-0 py-2 px-8 focus:outline-none hover:bg-cream-600 rounded text-lg">
+              Edit
+            </button>}
+          </div>
         </div>
-        <nav className="flex flex-col my-auto text-base font-black whitespace-nowrap text-cream-300">
-          <button onClick={handleView} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">View</button>
-          { authUser && <button onClick={handleUpdate} className="justify-center px-16 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:pr-6 max-md:pl-5" tabIndex="0">Edit</button>}
-        </nav>
       </section>
     </>
   );
 }
-function SupplierModals({data, setShowModal}) {
-  const { registerDST } = usePostDST()
+function SupplierModals({ data, setShowModal }) {
+  const { registerDST } = usePostDST();
+
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await registerDST(data.userid)
-    setShowModal(NaN)
-  }
+    e.preventDefault();
+    await registerDST(data.userid);
+    setShowModal(NaN);
+  };
 
   return (
-        <>
-          <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-          >
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                  <h3 className="text-3xl text-cream-500 font-semibold">
-                    {data.profile.companyName}
-                  </h3>
-                  <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setShowModal(NaN)}
-                  >
-                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                      ×
-                    </span>
-                  </button>
-                </div>
-                {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    Supplier Name : {data.profile.supplierName}
-                  </p>
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    Supplier Phone : {data.profile.phone}
-                  </p>
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    Supplier Address : {data.profile.address}
-                  </p>
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    Supplier Email : {data.email}
-                  </p>
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    Comodity : {data.profile.comodity}
-                  </p>
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    Supplier DST Status : {data.isDST ? 'True' : 'False'}
-                  </p>
-                </div>
-                {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                  <button
-                    className="mr-2 bg-cream-50 hover:bg-cream-100 text-cream-500 font-bold py-2 px-4 rounded"
-                    type="button"
-                    onClick={() => setShowModal(NaN)}
-                  >
-                    Close
-                  </button>
-                  <button
-                    className="bg-cream-300 hover:bg-cream-500 text-cream-50 font-bold py-2 px-4 rounded"
-                    type="button"
-                    onClick={handleSubmit}
-                    
-                  >
-                    Submit DST
-                  </button>
-                </div>
-              </div>
+    <>
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+          {/*content*/}
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full px-40 bg-white outline-none focus:outline-none">
+            {/*header*/}
+            <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t w-full">
+              <h3 className="text-3xl text-cream-500 font-semibold text-center w-full">
+                {data.profile.companyName}
+              </h3>
+            </div>
+            {/*body*/}
+            <div className="relative p-6 flex-auto">
+              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                Supplier Name : {data.profile.supplierName}
+              </p>
+              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                Supplier Phone : {data.profile.phone}
+              </p>
+              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                Supplier Address : {data.profile.address}
+              </p>
+              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                Supplier Email : {data.email}
+              </p>
+              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                Commodity : {data.profile.commodity}
+              </p>
+              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                Supplier DST Status : {data.isDST ? 'True' : 'False'}
+              </p>
+            </div>
+            {/*footer*/}
+            <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+              <button
+                className="mr-2 bg-cream-50 hover:bg-cream-100 text-cream-500 font-bold py-2 px-4 rounded"
+                type="button"
+                onClick={() => setShowModal(NaN)}
+              >
+                Close
+              </button>
+              <button
+                className="bg-cream-300 hover:bg-cream-500 text-cream-50 font-bold py-2 px-4 rounded"
+                type="button"
+                onClick={handleSubmit}
+              >
+                Daftar Supplier Tetap
+              </button>
             </div>
           </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
+        </div>
+      </div>
+      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+    </>
   );
 }
+
 
 function UpdateModals({ data, setShowUpdate }) {
   const { updateSupplier } = useUpdateSupplier();
@@ -150,17 +154,9 @@ function UpdateModals({ data, setShowUpdate }) {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <h3 className="text-3xl text-cream-500 font-semibold">
+              <h3 className="text-3xl text-cream-500 font-semibold text-center w-full">
                 {data.profile.companyName}
               </h3>
-              <button
-                className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                onClick={() => setShowUpdate(NaN)}
-              >
-                <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                  ×
-                </span>
-              </button>
             </div>
             {/*body*/}
             <div className="flex flex-col justify-items-center ml-3 mr-3 mt-3 space-y-2">
@@ -243,51 +239,44 @@ function UpdateModals({ data, setShowUpdate }) {
   );
 }
 
-
-function Supplier() {
+const Supplier = () => {
   const { suppliers } = useGetSupplier();
-  const [ showModal, setShowModal ] = useState(NaN);
-  const [ showUpdate, setShowUpdate ] = useState(NaN);
+  const [showModal, setShowModal] = useState(NaN);
+  const [showUpdate, setShowUpdate] = useState(NaN);
 
   return (
     <>
       {!isNaN(showModal) && <SupplierModals data={suppliers.filteredSupplier[showModal]} setShowModal={setShowModal} />}
       {!isNaN(showUpdate) && <UpdateModals data={suppliers.filteredSupplier[showUpdate]} setShowUpdate={setShowUpdate} />}
       <Navbar />
-      <div className="flex flex-col items-center pt-12 bg-white">
-        <header className="text-center">
-          <h1 className="text-4xl font-bold text-cream-500">Supplier</h1>
-          <p className="mt-5 text-2xl font-light text-cream-300">Data supplier yang telah daftar</p>
-        </header>
-        <main className="mt-24 w-full max-md:mt-10">
-          {Array.isArray(suppliers.filteredSupplier) && suppliers.filteredSupplier.length > 0 ? (
-            suppliers.filteredSupplier.map((supplier, index) => (
-              <SupplierCard
-                key={index}
-                data={supplier}
-                index={index}
-                setShowModal={setShowModal}
-                setShowUpdate={setShowUpdate}
-              />
-            ))
-          ) : (
-            <div className="text-center text-2xl font-light text-cream-300">
-              No suppliers available at the moment.
-            </div>
-          )}
-        </main>
-        <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
-          <div className="flex gap-0 self-start text-xs">
-            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/842f289a92a736d584a41d50b015c85a329d014de5e471a5927bab8fac105dde?apiKey=b1d7a673afae4361a48ecfd33debe811&" className="shrink-0 aspect-[0.93] w-[39px]" alt="Footer Logo" />
-            <div className="my-auto">KOPI<span className="text-cream-500">IN</span></div>
-          </div>
-          <div className="flex-auto my-auto text-xs max-md:max-w-full">
-            Made by <span className="text-cream-500">Love</span>
-          </div>
-        </footer>
-      </div>
+      <section className="text-gray-600 body-font">
+        <div className="container px-5 py-24 mx-auto">
+          <header className="text-center">
+            <h1 className="text-4xl font-bold text-cream-500">Supplier</h1>
+            <p className="mt-5 text-2xl font-light text-cream-300">Data supplier yang telah daftar</p>
+          </header>
+          <main className="mt-24 w-full max-md:mt-10">
+            {Array.isArray(suppliers.filteredSupplier) && suppliers.filteredSupplier.length > 0 ? (
+              suppliers.filteredSupplier.map((supplier, index) => (
+                    <SupplierCard
+                      key={index}
+                      data={supplier}
+                      index={index}
+                      setShowModal={setShowModal}
+                      setShowUpdate={setShowUpdate}
+                    />
+              ))
+            ) : (
+              <div className="text-center text-2xl font-light text-cream-300">
+                Belum ada Supplier.
+              </div>
+            )}
+          </main>
+        </div>
+      </section>
+      <Footer />
     </>
   );
-}
+};
 
 export default Supplier;

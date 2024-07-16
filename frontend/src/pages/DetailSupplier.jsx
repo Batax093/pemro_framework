@@ -1,7 +1,4 @@
 import PropTypes from 'prop-types';
-import { BiLogOut } from 'react-icons/bi';
-import useLogout from '../hooks/useLogout';
-import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 

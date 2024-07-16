@@ -16,6 +16,7 @@ const useApproveDST = () => {
             if (data.error) {
                 throw new Error(data.error);
             }
+            toast.success("DST approved successfully");
             return data;
         } catch (error) {
             toast.error(error.message);

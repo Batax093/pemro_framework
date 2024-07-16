@@ -6,21 +6,29 @@ import useGetDST from '../hooks/useGetDST';
 import usePostAnnouncement from '../hooks/usePostAnnouncement';
 import Navbar from '../components/Navbar';
 import { useAuthContext } from '../context/authContext';
+import '../App.css';
+import Footer from '../components/Footer';
 
-function SupplierStatus({ imageSrc, altText, approvedBy, companyName, status, statusBgColor }) {
+function SupplierStatus({ approvedBy, companyName, status, statusBgColor }) {
   return (
-    <article className="flex flex-col w-[30%] m-6 max-md:ml-0 max-md:w-full">
-      <div className="flex flex-col grow pt-11 w-full text-3xl tracking-widest text-center rounded-xl bg-cream-300 max-md:mt-10">
-        <div className="bg-cream-300 flex justify-center p-4">
-          <img loading="lazy" src={imageSrc} alt={altText} className="self-center max-w-full aspect-[1.49] w-[269px]" />
+    <div className="p-4 md:w-1/3">
+      <div className="flex rounded-lg h-full bg-cream-50 p-8 flex-col">
+        <div className="flex items-center mb-3">
+          <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-cream-500 text-white flex-shrink-0">
+            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <h2 className="text-gray-900 text-lg title-font font-medium">{companyName || "Belum ada nama Company"}</h2>
         </div>
-        <div className="mt-6 font-bold text-2xl text-cream-500 text-center">{approvedBy}</div>
-        <div className={`justify-center px-11 py-5 mt-7 font-bold text-center text-cream-300 ${statusBgColor} rounded-b-lg`}>
-          {status}
+        <div className="flex-grow">
+          <div className="mt-6 font-bold text-2xl text-cream-500 text-center">{approvedBy}</div>
+          <div className={`justify-center px-11 py-5 mt-7 font-bold text-center text-cream-300 ${statusBgColor} rounded-b-lg`}>
+            {status}
+          </div>
         </div>
-        <div className="mt-6 font-bold text-2xl text-cream-500 text-center">{companyName}</div>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -33,21 +41,23 @@ SupplierStatus.propTypes = {
   approvedBy: PropTypes.string.isRequired
 };
 
-function NewsArticle({ imageSrc, altText, content, title }) {
+function NewsArticle({content, title }) {
   return (
-    <article className="flex gap-0 max-md:flex-col max-md:gap-0 mb-4">
-      <div className="flex flex-col w-[27%] max-md:ml-0 max-md:w-full">
-        <div className="flex flex-col grow justify-center px-9 py-11 w-full rounded-3xl bg-cream-500 max-md:px-5 mb-7">
-          <img loading="lazy" src={imageSrc} alt={altText} className="w-full aspect-[1.49]" />
+    <div className="p-4 md:w-1/3">
+      <div className="flex rounded-lg h-full bg-cream-50 p-8 flex-col">
+        <div className="flex items-center mb-3">
+          <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-cream-500 text-white flex-shrink-0">
+            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <h2 className="text-gray-900 text-lg title-font font-medium">{title}</h2>
+        </div>
+        <div className="flex-grow">
+          <p className="leading-relaxed text-base">{content}</p>
         </div>
       </div>
-      <div className="flex flex-col ml-0 h-[20%] w-[72%] max-md:ml-0 max-md:w-full">
-        <div className="justify-center self-center px-5 py-8 w-full text-xl tracking-tight mt-8 bg-cream-300 text-cream-500 max-md:px-5 max-md:mt-8 max-md:max-w-full" style={{ letterSpacing: '0.5px'}}>
-          <h1 className="text-2xl font-bold mb-4">{title}</h1>
-          <p>{content}</p>
-        </div>
-      </div>
-    </article>
+    </div>
   );
 }
 
@@ -79,39 +89,56 @@ function NewsSection({ setShowCreateModal }) {
 
   return (
     <>
-      <section className="mt-11 text-4xl font-bold tracking-widest text-center text-cream-500 max-md:mt-10">
-        Berita Kopiin
+      <section className="text-gray-600 body-font">
+        <div className="container px-5 py-24 mx-auto">
+          <div className="flex flex-col text-center w-full mb-20">
+            <h2 className="text-xl text-cream-500 tracking-widest font-medium title-font mb-1">
+              Kumpulan Berita Terbaru Seputar Dunia Kopi
+            </h2>
+            <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900">Berita Kopiin</h1>
+          </div>
+          <div className="flex flex-wrap -m-4">
+            {Array.isArray(announcements?.announcement) && announcements.announcement.length > 0 ? (
+              announcements.announcement.slice(0, visibleCount).map((announcement, index) => (
+                <div key={index} className="flex w-full p-4">
+                  <NewsArticle
+                    index={index}
+                    announcement={announcement}
+                    imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
+                    altText={announcement.title || "N/A"}
+                    content={announcement.content || "N/A"}
+                    title={announcement.title || "N/A"}
+                  />
+                  {authUser.role !== "supplier" && (
+                    <button onClick={openModal} className="ml-4 mt-14 animated-button">
+                      <svg
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        className="plus-icon"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 5v14M5 12h14" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="text-center text-2xl font-light text-cream-300">
+                No announcements available at the moment.
+              </div>
+            )}
+          </div>
+          {announcements && Array.isArray(announcements.announcement) && visibleCount < announcements.announcement.length && (
+            <div className="flex justify-center mt-6">
+              <button onClick={loadMore} className="px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5">Next</button>
+            </div>
+          )}
+        </div>
       </section>
-      <p className="mt-4 text-2xl font-light tracking-wide text-center text-cream-500 max-md:max-w-full">
-        Kumpulan Berita Terbaru Seputar Dunia Kopi
-      </p>
-      <nav className='flex justify-center pt-10'>
-        { authUser.role !== "supplier" && <button onClick={openModal} className="justify-center px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5" tabIndex="0">Post Announcement</button>}
-      </nav>
-      <main className="mt-10 w-full max-w-[1191px] max-md:max-w-full max-h-[500px] overflow-y-auto">
-        {Array.isArray(announcements?.announcement) && announcements.announcement.length > 0 ? (
-          announcements.announcement.slice(0, visibleCount).map((announcement, index) => (
-            <NewsArticle
-              key={index}
-              index={index}
-              announcement={announcement}
-              imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
-              altText={announcement.title || "N/A"}
-              content={announcement.content || "N/A"}
-              title={announcement.title || "N/A"}
-            />
-          ))
-        ) : (
-          <div className="text-center text-2xl font-light text-cream-300">
-            No announcements available at the moment.
-          </div>
-        )}
-        {announcements && Array.isArray(announcements.announcement) && visibleCount < announcements.announcement.length && (
-          <div className="flex justify-center mt-6">
-            <button onClick={loadMore} className="px-14 py-5 mb-6 rounded-xl bg-cream-500 text-cream-300 max-md:px-5">Next</button>
-          </div>
-        )}
-      </main>
     </>
   );
 }
@@ -121,22 +148,27 @@ function StatusSection() {
   const { dst } = useGetDST();
 
   return (
-    <div className="flex justify-center mt-20 w-full max-md:mt-10 overflow-x-auto">
-      <div className="flex justify-between w-full max-w-[90%]">
-        {Array.isArray(dst.DST) && dst.DST.map((supplierTetap, index) => (
-          <SupplierStatus
-            key={index}
-            supplierTetap={supplierTetap}
-            imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
-            altText='test'
-            approvedBy={supplierTetap.approvedBy || "Belum disetujui"}
-            status={supplierTetap.status}
-            companyName={supplierTetap.companyName || "Belum ada nama Company"}
-            statusBgColor='bg-cream-500'
-          />
-        ))}
+    <section className="text-gray-600 body-font">
+      <div className="flex flex-col text-center w-full mb-0">
+        <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900">Status Daftar Supplier Tetap</h1>
       </div>
-    </div>
+      <div className="container px-5 py-24 mx-auto">
+        <div className="flex flex-wrap -m-4">
+          {Array.isArray(dst.DST) && dst.DST.map((supplierTetap, index) => (
+            <SupplierStatus
+              key={index}
+              supplierTetap={supplierTetap}
+              imageSrc='https://cdn.builder.io/api/v1/image/assets/TEMP/9b300a7b5ec1ca9295e757297eb45d2927ba83a01c43b4d387002a419f0886e8?apiKey=6aa320d50fc04f13ae8b58abb91612c7&'
+              altText='test'
+              approvedBy={supplierTetap.approvedBy || "Belum disetujui"}
+              status={supplierTetap.status}
+              companyName={supplierTetap.companyName || "Belum ada nama Company"}
+              statusBgColor='bg-cream-500'
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -180,46 +212,46 @@ function CreateAnnouncementModal({ setShowCreateModal }) {
               </button>
             </div>
             {/*body*/}
-            <div className="flex flex-col justify-items-center ml-3 mr-3 mt-3 space-y-2">
-              <label htmlFor="title" className="sr-only">
-                title
-              </label>
-              <input
-                type="text"
-                id="title"
-                className="px-10 py-5 mt-8 bg-cream-50 rounded-md max-md:pr-5"
-                placeholder="Title"
-                value={announcement.title}
-                onChange={(e) => setAnnouncement({ ...announcement, title: e.target.value })}
-              />
-              <label htmlFor="content" className="sr-only">
-              content
-              </label>
-              <input
-                type="text"
-                id="content"
-                className="px-10 pt-6 pb-24 mt-3.5 whitespace-nowrap bg-cream-50 rounded-md max-md:pr-5"
-                placeholder="Content"
-                value={announcement.content}
-                onChange={(e) => setAnnouncement({ ...announcement, content: e.target.value })}
-              />
-              <div></div>
+            <div className="relative p-6 flex-auto">
+              <form className="bg-white rounded px-8 pt-6 pb-8 w-full">
+                <label className="block text-cream-500 text-sm font-bold mb-1" htmlFor="title">
+                  Title
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-1 text-cream-500"
+                  id="title"
+                  type="text"
+                  value={announcement.title}
+                  onChange={(e) => setAnnouncement({ ...announcement, title: e.target.value })}
+                  placeholder="Title"
+                />
+                <label className="block text-cream-500 text-sm font-bold my-3" htmlFor="content">
+                  Content
+                </label>
+                <textarea
+                  className="shadow appearance-none border rounded w-full py-2 px-1 text-cream-500"
+                  id="content"
+                  value={announcement.content}
+                  onChange={(e) => setAnnouncement({ ...announcement, content: e.target.value })}
+                  placeholder="Content"
+                />
+              </form>
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
-                className="mr-2 bg-cream-50 hover:bg-cream-100 text-cream-500 font-bold py-2 px-4 rounded"
+                className="bg-cream-300 text-white active:bg-yellow-500 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
                 onClick={() => setShowCreateModal(false)}
               >
                 Close
               </button>
               <button
-                className="bg-cream-300 hover:bg-cream-500 text-cream-50 font-bold py-2 px-4 rounded"
+                className="bg-cream-500 text-white active:bg-cream-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
                 onClick={handleButtonClick}
               >
-                Save Changes
+                Submit
               </button>
             </div>
           </div>
@@ -230,37 +262,18 @@ function CreateAnnouncementModal({ setShowCreateModal }) {
   );
 }
 
-CreateAnnouncementModal.propTypes = {
-  setShowCreateModal: PropTypes.func.isRequired,
-};
-
-function Footer() {
-  return (
-    <footer className="flex gap-5 items-start self-stretch px-3 pt-7 pb-3.5 mt-14 w-full font-black bg-cream-300 text-black max-md:flex-wrap max-md:mt-10 max-md:max-w-full">
-      <div className="flex gap-0 self-start text-xs">
-        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/842f289a92a736d584a41d50b015c85a329d014de5e471a5927bab8fac105dde?apiKey=b1d7a673afae4361a48ecfd33debe811&" className="shrink-0 aspect-[0.93] w-[39px]" alt="Footer Logo" />
-        <div className="my-auto">KOPI<span className="text-cream-500">IN</span></div>
-      </div>
-      <div className="flex-auto my-auto text-xs max-md:max-w-full">
-        Made by <span className="text-cream-500">Love</span>
-      </div>
-    </footer>
-  );
-}
-
-function Announcement() {
+function App() {
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const { authUser } = useAuthContext();
 
   return (
-    <>
+    <div className="bg-white">
       <Navbar />
       <NewsSection setShowCreateModal={setShowCreateModal} />
       <StatusSection />
-      { showCreateModal && ( authUser.role === "administrator" || authUser.role === "manajer" ) && <CreateAnnouncementModal setShowCreateModal={setShowCreateModal} /> }
+      {showCreateModal && <CreateAnnouncementModal setShowCreateModal={setShowCreateModal} />}
       <Footer />
-    </>
+    </div>
   );
 }
 
-export default Announcement;
+export default App;
