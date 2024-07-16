@@ -109,7 +109,7 @@ function NewsSection({ setShowCreateModal }) {
                     content={announcement.content || "N/A"}
                     title={announcement.title || "N/A"}
                   />
-                  {authUser.role !== "supplier" && (
+                  {authUser.role === "administrator" && (
                     <button onClick={openModal} className="ml-4 mt-14 animated-button">
                       <svg
                         fill="none"

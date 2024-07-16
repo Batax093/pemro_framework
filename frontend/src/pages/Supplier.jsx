@@ -45,7 +45,7 @@ function SupplierCard({ data, index, setShowModal, setShowUpdate }) {
                 </svg>
               </button>
             </div>
-            { authUser && <button onClick={handleUpdate} className="flex mx-auto mt-25 text-white bg-cream-500 border-0 py-2 px-8 focus:outline-none hover:bg-cream-600 rounded text-lg">
+            { authUser.role === "administrator" && <button onClick={handleUpdate} className="flex mx-auto mt-25 text-white bg-cream-500 border-0 py-2 px-8 focus:outline-none hover:bg-cream-600 rounded text-lg">
               Edit
             </button>}
           </div>
