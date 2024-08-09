@@ -133,7 +133,7 @@ export const applyforDST = async (req, res) => {
         const newDST = await DST.create({
             companyName: supplier.profile.companyName,
             supplierid: supplier._id,
-            status: "pending",
+            status: 'Pending',
             approvedBy: null
         })
 

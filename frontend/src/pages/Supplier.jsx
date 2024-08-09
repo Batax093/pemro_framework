@@ -84,13 +84,13 @@ function SupplierModals({ data, setShowModal }) {
                 Supplier Phone : {data.profile.phone}
               </p>
               <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                Supplier Address : {data.profile.address}
+                Comodity : {data.profile.address}
               </p>
               <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
                 Supplier Email : {data.email}
               </p>
               <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                Commodity : {data.profile.commodity}
+                Address : {data.profile.comodity}
               </p>
               <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
                 Supplier DST Status : {data.isDST ? 'True' : 'False'}
